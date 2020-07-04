@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder
 import io.reactivex.Single
 import okhttp3.ResponseBody
 import org.jsoup.Jsoup
+import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -66,7 +67,12 @@ fun ResponseBody.parseChapter(chapterUrl: String): Chapter {
 
     val chapterId = title.hashCode()
 
-    val paragraphs = content.eachText().mapIndexed { index, paragraph ->
+    val paragraphs = content.mapIndexedNotNull { index, item ->
+        if (item.isNavigation()) {
+            return@mapIndexedNotNull null
+        }
+
+        val paragraph = item.toString()
         Paragraph(index, paragraph, chapterId)
     }
 
@@ -80,6 +86,14 @@ fun ResponseBody.parseChapter(chapterUrl: String): Chapter {
         this.paragraphs = paragraphs
     }
 }
+
+private fun Element.isNavigation(): Boolean {
+    return this.children().size > 2 && this.text().let {
+        it.contains("previous chapter", ignoreCase = true)
+                || it.contains("next chapter", ignoreCase = true)
+    }
+}
+
 
 var time = 0L
 fun now() = System.currentTimeMillis()

@@ -32,8 +32,8 @@ class ExampleUnitTest {
     fun getChapter() {
         val chapterUrl =
             "https://honyakusite.wordpress.com/2016/04/27/vendm-016-the-work-of-rebuilding/"
-        val chapter = api.getChapter(chapterUrl).blockingGet()
-            .parseChapter(chapterUrl)
+        val response = api.getChapter(chapterUrl).blockingGet()
+        parseChapter(response, chapterUrl)
             .printLn()
     }
 
