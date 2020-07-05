@@ -4,35 +4,63 @@ import android.os.Bundle
 import android.text.Html
 import android.text.Html.FROM_HTML_MODE_COMPACT
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.*
 import com.exd.myapplication.R
 import com.exd.myapplication.models.Chapter
-import com.exd.myapplication.network.BookApi
-import com.exd.myapplication.network.RetrofitBuilder
-import com.exd.myapplication.network.parseChapter
-import io.reactivex.schedulers.Schedulers
 
 class ChapterActivity : AppCompatActivity() {
+    val TAG = "CHAPTER ACTIVITY"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chapter)
+        val component = DaggerActivityComponent
+            .builder()
+            .bindContext(this.applicationContext)
+            .build()
+        ActivityComponent.instance = component
         setViewModels()
     }
 
     private fun setViewModels() {
         val model: ChapterViewModel by viewModels()
         val title = findViewById<TextView>(R.id.title)
+
         val paragraphList = findViewById<RecyclerView>(R.id.paragraph_list)
+        paragraphList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                val canScrollDown = recyclerView.canScrollVertically(1)
+                val canScrollUp = recyclerView.canScrollVertically(-1)
+                if (newState == SCROLL_STATE_IDLE) {
+                    model.onBottomReached(!canScrollDown)
+                    model.onTopReached(!canScrollUp)
+                }
+                if (newState == SCROLL_STATE_DRAGGING) {
+                    if (!canScrollDown) {
+                        model.onOverScroll()
+                    }
+                    if (!canScrollUp) {
+                        model.onOverScrollUp()
+                    }
+                }
+                val state = when (newState) {
+                    SCROLL_STATE_IDLE -> "SCROLL_STATE_IDLE"
+                    SCROLL_STATE_DRAGGING -> "SCROLL_STATE_DRAGGING"
+                    SCROLL_STATE_SETTLING -> "SCROLL_STATE_SETTLING"
+                    else -> "SCROLL_UNKNOWN"
+                }
+                Log.v(TAG, "onScrollStateChanged: $state $canScrollDown")
+            }
+        })
+
+
         val adapter = ChapterAdapter()
         paragraphList.adapter = adapter
 //        paragraphList.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
@@ -44,59 +72,13 @@ class ChapterActivity : AppCompatActivity() {
 //                Log.e("scroll", "down")
 //            }
 //        }
+        Log.v("chapter activity", "listening to chapter")
         val chapterObserver = Observer<Chapter> { chapter ->
+            Log.v(TAG, "setViewModels: ${chapter.chapterTitle}")
             title.text = Html.fromHtml(chapter.chapterTitle, FROM_HTML_MODE_COMPACT)
             adapter.setChapter(chapter)
         }
         model.chapterData.observe(this, chapterObserver)
         model.setChapter()
-    }
-}
-
-class ChapterAdapter : RecyclerView.Adapter<ChapterHolder>() {
-    private var chapter: Chapter = Chapter(0, "none", "none", "none", "none")
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChapterHolder {
-        return LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_paragraph, parent, false)
-            .let { ChapterHolder(it) }
-    }
-
-    fun setChapter(chapter: Chapter) {
-        this.chapter = chapter
-        notifyDataSetChanged()
-    }
-
-    override fun getItemCount(): Int = chapter.paragraphs.size
-
-    override fun onBindViewHolder(holder: ChapterHolder, position: Int) {
-        holder.bind(chapter.paragraphs[position].text)
-    }
-}
-
-class ChapterHolder(private val view: View) : RecyclerView.ViewHolder(view) {
-
-    fun bind(paragraph: String) {
-        val text = Html.fromHtml(paragraph, FROM_HTML_MODE_COMPACT)
-//        val text = paragraph
-        view.findViewById<TextView>(R.id.text).text = text
-    }
-}
-
-class ChapterViewModel : ViewModel() {
-    val chapterData: MutableLiveData<Chapter> by lazy {
-        MutableLiveData<Chapter>()
-    }
-    private val retrofit = RetrofitBuilder.build()
-    private val api = retrofit.create(BookApi::class.java)
-
-    fun setChapter() {
-        val chapterUrl =
-            "https://honyakusite.wordpress.com/2016/04/27/vendm-016-the-work-of-rebuilding/"
-        val chapter = api.getChapter(chapterUrl)
-            .subscribeOn(Schedulers.io())
-            .blockingGet()
-            .parseChapter(chapterUrl)
-        chapterData.value = chapter
     }
 }

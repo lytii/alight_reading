@@ -13,6 +13,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Url
+import javax.inject.Inject
 import kotlin.random.Random
 
 interface BookApi {
@@ -23,12 +24,14 @@ interface BookApi {
     fun getChapter(@Url chapterUrl: String): Single<ResponseBody>
 }
 
-object RetrofitBuilder {
-    private const val baseUrl = "https://honyakusite.wordpress.com/vending-machine/"
+abstract class Network {
+    companion object {
+        private const val baseUrl = "https://honyakusite.wordpress.com/vending-machine/"
+    }
 
-    fun build(): Retrofit {
+    val retrofit: Retrofit by lazy {
         val gson = GsonBuilder().setLenient().create()
-        return Retrofit.Builder()
+        Retrofit.Builder()
             .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -36,8 +39,18 @@ object RetrofitBuilder {
     }
 }
 
+class BookNetwork @Inject constructor() : Network() {
+    private val api = retrofit.create(BookApi::class.java)
 
-fun parseBooks(body: ResponseBody): List<Chapter> {
+    fun getChapter(chapterUrl: String): Single<Chapter> = api.getChapter(chapterUrl)
+        .map { parseChapter(it, chapterUrl) }
+
+    fun getChapterList(): Single<List<Chapter>> = api.getChapterList()
+        .map { parseChapterList(it) }
+}
+
+
+fun parseChapterList(body: ResponseBody): List<Chapter> {
     val doc = Jsoup.parse(body.string())
     return doc.select("ol [href]").map {
         Chapter(
@@ -48,8 +61,8 @@ fun parseBooks(body: ResponseBody): List<Chapter> {
     }
 }
 
-fun ResponseBody.parseChapter(chapterUrl: String): Chapter {
-    val doc = Jsoup.parse(this.string())
+fun parseChapter(responseBody: ResponseBody, chapterUrl: String): Chapter {
+    val doc = Jsoup.parse(responseBody.string())
     val title = doc.select(".entry-header > h1.entry-title").text()
     // TODO split foot notes from ".entry-content > ol > li"
     val content = doc.select(".entry-content > p, .entry-content > h2, .entry-content > ol > li")

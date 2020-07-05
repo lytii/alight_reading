@@ -1,12 +1,10 @@
 package com.exd.myapplication
 
 import android.util.Log
-import android.util.Range
 import androidx.room.Room
-import androidx.room.RoomDatabase
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.exd.myapplication.database.BookDB
+import com.exd.myapplication.database.BookRoomDB
 import com.exd.myapplication.models.Book
 import com.exd.myapplication.models.Paragraph
 
@@ -15,7 +13,6 @@ import org.junit.runner.RunWith
 
 import org.junit.Assert.*
 import org.junit.Before
-import kotlin.random.Random
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -32,7 +29,7 @@ class ExampleInstrumentedTest {
     }
 
     val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-    val dbBuilder = Room.databaseBuilder(appContext, BookDB::class.java, "myBooks")
+    val dbBuilder = Room.databaseBuilder(appContext, BookRoomDB::class.java, "myBooks")
         .fallbackToDestructiveMigration()
         .build()
     val db = dbBuilder.bookDao()

@@ -1,8 +1,7 @@
 package com.exd.myapplication
 
 import com.exd.myapplication.network.BookApi
-import com.exd.myapplication.network.RetrofitBuilder
-import com.exd.myapplication.network.parseBooks
+import com.exd.myapplication.network.parseChapterList
 import com.exd.myapplication.network.parseChapter
 import org.junit.Test
 
@@ -19,22 +18,19 @@ class ExampleUnitTest {
         assertEquals(4, 2 + 2)
     }
 
-    private val retrofit = RetrofitBuilder.build()
-    private val api = retrofit.create(BookApi::class.java)
-
     @Test
     fun getList() {
-        val get = api.getChapterList().blockingGet()
-        parseBooks(get).printLn()
+//        val get = api.getChapterList().blockingGet()
+//        parseChapterList(get).printLn()
     }
 
     @Test
     fun getChapter() {
-        val chapterUrl =
-            "https://honyakusite.wordpress.com/2016/04/27/vendm-016-the-work-of-rebuilding/"
-        val response = api.getChapter(chapterUrl).blockingGet()
-        parseChapter(response, chapterUrl)
-            .printLn()
+//        val chapterUrl =
+//            "https://honyakusite.wordpress.com/2016/04/27/vendm-016-the-work-of-rebuilding/"
+//        val response = api.getChapter(chapterUrl).blockingGet()
+//        parseChapter(response, chapterUrl)
+//            .printLn()
     }
 
     fun Any.printLn() = println(this)
