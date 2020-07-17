@@ -11,8 +11,6 @@ abstract class ActivityComponent {
 
         fun get() = instance
     }
-
-    abstract fun context(): Context
     abstract fun inject(activity: ChapterActivity)
 
     @Component.Builder

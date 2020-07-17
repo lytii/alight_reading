@@ -11,6 +11,8 @@ data class Book(
     val bookTitle: String,
     val bookUrl: String
 ) {
+    @Ignore
+    var chapterList: List<Chapter> = emptyList()
 }
 
 @Entity
@@ -19,9 +21,12 @@ data class Chapter(
     val chapterId: Int,
     val chapterTitle: String,
     val chapterUrl: String,
-    val previousUrl: String = "",
-    val nextUrl: String = ""
+    val bookId: Int
 ) {
+
+    companion object {
+        val emptyChapter = Chapter(0, "", "", 0)
+    }
 
     @Ignore
     var paragraphs: List<Paragraph> = emptyList()
@@ -30,9 +35,7 @@ data class Chapter(
         return "Chapter(chapterId=$chapterId, " +
                 "chapterTitle='$chapterTitle', " +
                 "chapterUrl='$chapterUrl', " +
-                "paragraphs=${paragraphs.map { '\n' + it.text }}, " +
-                "previousUrl='$previousUrl', " +
-                "nextUrl='$nextUrl')"
+                "paragraphs=${paragraphs.map { '\n' + it.text }}, "
     }
 }
 

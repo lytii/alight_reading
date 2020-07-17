@@ -7,8 +7,7 @@ import com.exd.myapplication.R
 import com.exd.myapplication.models.Chapter
 
 class ChapterAdapter : RecyclerView.Adapter<ChapterHolder>() {
-    private var chapter: Chapter =
-        Chapter(0, "none", "none", "none", "none")
+    private var chapter: Chapter = Chapter.emptyChapter
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChapterHolder {
         return LayoutInflater.from(parent.context)

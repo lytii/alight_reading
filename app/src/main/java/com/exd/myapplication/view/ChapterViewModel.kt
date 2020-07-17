@@ -5,14 +5,23 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.exd.myapplication.database.BookDB
+import com.exd.myapplication.models.Book
 import com.exd.myapplication.models.Chapter
 import com.exd.myapplication.network.BookNetwork
+import io.reactivex.Completable
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class ChapterViewModel : ViewModel() {
     val TAG = "ChapterViewModel"
+
+    enum class WebsiteBooks {
+        VENDING_MACHINE
+    }
+
+    var index = 0
 
     @Inject
     lateinit var network: BookNetwork
@@ -30,43 +39,104 @@ class ChapterViewModel : ViewModel() {
     var chapterData: MediatorLiveData<Chapter> =
         MediatorLiveData<Chapter>()
 
-    fun setChapter(
-        chapterUrl: String =
-            "https://honyakusite.wordpress.com/2016/04/27/vendm-016-the-work-of-rebuilding/"
-    ) {
-        Log.i("model", "setting chapter $chapterUrl")
-        chapterData.addSource(db.listenToChapter(chapterUrl)) { chapter ->
-            Log.e(TAG, "heard chapter $chapter")
-            if (chapter == null) {
-                network.getChapter(chapterUrl)
-                    .subscribeOn(Schedulers.io())
-                    .doOnSuccess { db.addChapter(it) }
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe { chapterFromNetwork -> listenToParagraphs(chapterFromNetwork) }
-            } else {
-                listenToParagraphs(chapter)
-            }
-        }
+    var bookData = MutableLiveData<Book>()
 
+    fun getBook(bookName: String = WebsiteBooks.VENDING_MACHINE.name) {
+        Log.d(TAG, "getBook: $bookName")
+        val chapterListFromNetwork = network.getChapterList(bookName)
+            .map {
+                Book(
+                    bookId = bookName.hashCode(),
+                    bookUrl = "https://honyakusite.wordpress.com/vending-machine/",
+                    bookTitle = bookName
+                ).apply { chapterList = it }
+            }.doOnSuccess { db.addBook(it) }
+        db.getBook(bookName)
+            .switchIfEmpty(chapterListFromNetwork)
+            .flatMap {
+                if (it.chapterList.isEmpty()) {
+                    chapterListFromNetwork
+                } else {
+                    Single.just(it)
+                }
+            }
+            .subscribe { book ->
+                setChapterContent(book.chapterList[index])
+                bookData.postValue(book)
+            }
+    }
+
+    fun setContent() {
+        getBook()
+    }
+
+    private fun setChapterContent(chapter: Chapter) {
+        Log.i("model", "setting chapter $chapter")
+        // chapter paragraphs will always be empty when just from db
+        val paragraphs = db.getParagraphs(chapter.chapterId)
+        chapter.paragraphs = paragraphs
+        if (paragraphs.isNullOrEmpty()) {
+            network.getChapter(chapter)
+                .doOnSuccess {
+                    db.addParagraphs(chapter.chapterId, it.paragraphs)
+                }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { chapterFromNetwork ->
+                    listenToParagraphs(chapterFromNetwork)
+                }
+        } else {
+            Completable.complete()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { listenToParagraphs(chapter) }
+
+        }
     }
 
     private fun listenToParagraphs(chapter: Chapter) {
         chapterData.addSource(db.listenToParagraphs(chapter.chapterId)) { paragraphs ->
             Log.d(TAG, "heard paragraph size: ${paragraphs.size}")
             if (paragraphs.isNullOrEmpty()) {
-                network.getChapter(chapter.chapterUrl)
+                network.getChapter(chapter)
                     .subscribeOn(Schedulers.io())
-                    .subscribe { chapter -> db.addParagraphs(chapter.paragraphs) }
+                    .subscribe { chapter ->
+                        db.addParagraphs(
+                            chapter.chapterId,
+                            chapter.paragraphs
+                        )
+                    }
             } else {
                 Chapter(
-                    chapter.chapterId,
-                    chapter.chapterTitle,
-                    chapter.chapterUrl
+                    chapterId = chapter.chapterId,
+                    chapterTitle = chapter.chapterTitle,
+                    chapterUrl = chapter.chapterUrl,
+                    bookId = chapter.bookId
                 ).run {
                     this.paragraphs = paragraphs
                     chapterData.value = this
                 }
             }
+        }
+    }
+
+    fun onStrongScrollUp() {
+        if (overScrolledUp > 0) {
+            Log.e("model", "trigger over scroll up function")
+//            if (index > 0) {
+//                index--
+//                setContent()
+//            }
+            overScrolledUp = 0
+        }
+    }
+
+    fun onStrongScrollDown() {
+        if (overScrolled > 0) {
+            Log.e("model", "trigger over scroll down function")
+            overScrolled = 0
+//            if (index < bookData.value?.chapterList?.size ?: 0) {
+//                index++
+//                setContent()
+//            }
         }
     }
 
@@ -77,11 +147,15 @@ class ChapterViewModel : ViewModel() {
         if (!reached) {
             Log.d("model", "resetting overScroll")
             overScrolled = 0
-        } else if (overScrolled > 1) {
-            overScrolled = 0
-            setChapter("https://honyakusite.wordpress.com/2016/05/03/vendm-017-gold-coins-and-silver-coins/")
-            Log.e("model", "trigger over scroll function")
         }
+//        else if (overScrolled > 1) {
+//            overScrolled = 0
+//            if (index < bookData.value?.chapterList?.size ?: 0) {
+//                index++
+//                setContent()
+//            }
+//            Log.e("model", "trigger over scroll function")
+//        }
         Log.e("model", "onBottomReached: $reached")
     }
 
@@ -89,11 +163,15 @@ class ChapterViewModel : ViewModel() {
         if (!reached) {
             Log.e("model", "resetting overScroll")
             overScrolledUp = 0
-        } else if (overScrolledUp > 1) {
-            overScrolledUp = 0
-            setChapter()
-            Log.e("model", "trigger over scroll up function")
         }
+//        else if (overScrolledUp > 1) {
+//            overScrolledUp = 0
+//            if (index > 0) {
+//                index--
+//                setContent()
+//            }
+//            Log.e("model", "trigger over scroll up function")
+//        }
         Log.e("model", "onTopReached: $reached")
     }
 
