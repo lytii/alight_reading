@@ -21,11 +21,12 @@ data class Chapter(
     val chapterId: Int,
     val chapterTitle: String,
     val chapterUrl: String,
-    val bookId: Int
+    val bookId: Int,
+    val index: Int
 ) {
 
     companion object {
-        val emptyChapter = Chapter(0, "", "", 0)
+        val emptyChapter = Chapter(0, "", "", 0, 0)
     }
 
     @Ignore
@@ -40,8 +41,8 @@ data class Chapter(
 }
 
 @Entity(primaryKeys = ["index", "chapterId"])
-data class Paragraph(
+data class Paragraph constructor(
     val index: Int,
     val text: String,
     val chapterId: Int
-)
+) {}

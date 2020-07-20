@@ -1,17 +1,21 @@
-package com.exd.myapplication.view
+package com.exd.myapplication.dagger
 
 import android.content.Context
+import com.exd.myapplication.view.ChapterActivity
 import dagger.BindsInstance
 import dagger.Component
 
 @Component
-abstract class ActivityComponent {
+interface ActivityComponent {
     companion object {
         lateinit var instance: ActivityComponent
 
-        fun get() = instance
+        fun get() =
+            instance
     }
-    abstract fun inject(activity: ChapterActivity)
+
+    fun context(): Context
+    fun inject(activity: ChapterActivity)
 
     @Component.Builder
     interface Builder {

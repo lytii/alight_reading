@@ -1,5 +1,6 @@
-package com.exd.myapplication.view
+package com.exd.myapplication.dagger
 
+import com.exd.myapplication.view.ChapterViewModel
 import dagger.Component
 
 @Component(dependencies = [ActivityComponent::class])

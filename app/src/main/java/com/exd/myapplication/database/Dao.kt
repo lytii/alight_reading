@@ -9,6 +9,7 @@ import com.exd.myapplication.models.Book
 import com.exd.myapplication.models.Chapter
 import com.exd.myapplication.models.Paragraph
 import io.reactivex.Maybe
+import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
@@ -42,6 +43,12 @@ interface BookDao {
     @Query("SELECT * FROM Paragraph where (:chapterId) LIKE chapterId")
     fun listenToParagraphs(chapterId: Int): LiveData<List<Paragraph>>
 
+    @Insert(onConflict = REPLACE)
+    fun saveChapterList(list: List<Chapter>)
+
+    @Query("SELECT * FROM Chapter where (:id) == bookId")
+    fun getChapterList(id: Int): List<Chapter>
+
 }
 
 
@@ -71,16 +78,32 @@ class BookDB @Inject constructor(context: Context) {
             .subscribeOn(Schedulers.io())
     }
 
+    fun saveChapterList(list: List<Chapter>) {
+        dao.saveChapterList(list)
+    }
+
+    fun getChapterList(bookName: String): Maybe<List<Chapter>> {
+        return Maybe.fromCallable { dao.getChapterList(bookName.hashCode()) }
+            .filter { it.isNotEmpty() }
+            .subscribeOn(Schedulers.io())
+    }
+
     fun addChapter(chapter: Chapter) {
         Log.i(TAG, "addChapter: $chapter")
         dao.addChapter(chapter)
     }
 
-    fun getParagraphs(chapterId: Int): List<Paragraph> {
+    fun getParagraphMaybe(chapterUrl: String): Maybe<List<Paragraph>> {
+        return Single.fromCallable { getParagraphs(chapterUrl.hashCode()) }
+            .filter { it.isNotEmpty() }
+            .subscribeOn(Schedulers.io())
+    }
+
+    private fun getParagraphs(chapterId: Int): List<Paragraph> {
         return dao.getParagraphs(chapterId)
     }
 
-    fun addParagraphs(
+    fun saveParagraphs(
         chapterId: Int,
         paragraphs: List<Paragraph>
     ) {

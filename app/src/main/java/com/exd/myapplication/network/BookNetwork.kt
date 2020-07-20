@@ -30,7 +30,8 @@ abstract class Network {
         private const val baseUrl = "https://honyakusite.wordpress.com/vending-machine/"
     }
 
-    private val logging = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BASIC }
+    private val logging =
+        HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BASIC }
     private val client = OkHttpClient.Builder()
         .addInterceptor(logging)
         .build()
@@ -49,9 +50,12 @@ abstract class Network {
 class BookNetwork @Inject constructor() : Network() {
     private val api = retrofit.create(BookApi::class.java)
 
-    fun getChapter(chapter: Chapter): Single<Chapter> = api.getChapter(chapter.chapterUrl)
+    /**
+     * Get
+     */
+    fun getChapter(url: String): Single<List<Paragraph>> = api.getChapter(url)
         .subscribeOn(Schedulers.io())
-        .map { parseChapter(it, chapter) }
+        .map { parseChapter(it, url.hashCode()) }
 
     fun getChapterList(bookId: String): Single<List<Chapter>> = api.getChapterList()
         .subscribeOn(Schedulers.io())
@@ -61,18 +65,19 @@ class BookNetwork @Inject constructor() : Network() {
 
 fun parseChapterList(bookId: String, body: ResponseBody): List<Chapter> {
     val doc = Jsoup.parse(body.string())
-    return doc.select("ol [href]").map {
-        val url = it.attr("href")
+    return doc.select("ol [href]").mapIndexed { index, chapter ->
+        val url = chapter.attr("href")
         Chapter(
             chapterId = url.hashCode(),
-            chapterTitle = it.text(),
+            chapterTitle = chapter.text(),
             chapterUrl = url,
-            bookId = bookId.hashCode()
+            bookId = bookId.hashCode(),
+            index = index
         )
     }
 }
 
-fun parseChapter(responseBody: ResponseBody, chapter: Chapter): Chapter {
+fun parseChapter(responseBody: ResponseBody, chapterId: Int): List<Paragraph> {
     val doc = Jsoup.parse(responseBody.string())
     val title = doc.select(".entry-header > h1.entry-title").text()
     // TODO split foot notes from ".entry-content > ol > li"
@@ -89,22 +94,13 @@ fun parseChapter(responseBody: ResponseBody, chapter: Chapter): Chapter {
         }
     }
 
-    val paragraphs = content.mapIndexedNotNull { index, item ->
+    return content.mapIndexedNotNull { index, item ->
         if (item.isNavigation()) {
             return@mapIndexedNotNull null
         }
 
         val paragraph = item.toString()
-        Paragraph(index, paragraph, chapter.chapterId)
-    }
-
-    return Chapter(
-        chapterId = chapter.chapterUrl.hashCode(),
-        chapterTitle = title,
-        chapterUrl = chapter.chapterUrl,
-        bookId = chapter.bookId
-    ).apply {
-        this.paragraphs = paragraphs
+        Paragraph(index, paragraph, chapterId)
     }
 }
 
