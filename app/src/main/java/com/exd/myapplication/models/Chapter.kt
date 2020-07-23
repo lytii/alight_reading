@@ -40,6 +40,13 @@ data class Chapter(
     }
 }
 
+@Entity
+data class Bookmark(val index: Int, @PrimaryKey val key: Int = 0) {
+    companion object {
+        val starting = Bookmark(50)
+    }
+}
+
 @Entity(primaryKeys = ["index", "chapterId"])
 data class Paragraph constructor(
     val index: Int,

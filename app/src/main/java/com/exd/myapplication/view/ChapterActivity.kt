@@ -38,28 +38,28 @@ class ChapterActivity : AppCompatActivity() {
         val layoutManager = TopBottomOverScrollListener(model, applicationContext)
         paragraphList.layoutManager = layoutManager
 
-        val adapter = ChapterAdapter()
-        paragraphList.adapter = adapter
-        paragraphList.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
-//            Log.e("scroll", "$oldScrollY to $scrollY")
-
-            if (oldScrollY <= scrollY && oldScrollY != 0) {
-//                title.visibility = View.GONE
-//                Log.e("scroll", "down $oldScrollY to $scrollY")
-            } else {
-//                Log.e("scroll", "up")
-//                title.visibility = View.VISIBLE
-            }
-        }
-        Log.v("chapter activity", "listening to chapter")
-        val chapterObserver = Observer<Chapter> { chapter ->
-            Log.v(TAG, "setViewModels: ${chapter.chapterId} ${chapter.chapterTitle}")
-//            title.text = Html.fromHtml(chapter.chapterTitle, FROM_HTML_MODE_COMPACT)
-            adapter.setChapter(chapter)
-            (paragraphList.layoutManager as LinearLayoutManager).scrollToPosition(0)
-            paragraphList.smoothScrollToPosition(0)
-        }
-        model.chapterDataToBeObserved.observe(this, chapterObserver)
-        model.loadContent()
+//        val adapter = ChapterAdapter()
+//        paragraphList.adapter = adapter
+//        paragraphList.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+////            Log.e("scroll", "$oldScrollY to $scrollY")
+//
+//            if (oldScrollY <= scrollY && oldScrollY != 0) {
+////                title.visibility = View.GONE
+////                Log.e("scroll", "down $oldScrollY to $scrollY")
+//            } else {
+////                Log.e("scroll", "up")
+////                title.visibility = View.VISIBLE
+//            }
+//        }
+//        Log.v("chapter activity", "listening to chapter")
+//        val chapterObserver = Observer<Chapter> { chapter ->
+//            Log.v(TAG, "setViewModels: ${chapter.chapterId} ${chapter.chapterTitle}")
+////            title.text = Html.fromHtml(chapter.chapterTitle, FROM_HTML_MODE_COMPACT)
+//            adapter.setChapter(chapter)
+//            (paragraphList.layoutManager as LinearLayoutManager).scrollToPosition(0)
+//            paragraphList.smoothScrollToPosition(0)
+//        }
+//        model.chapterDataToBeObserved.observe(this, chapterObserver)
+//        model.loadContent()
     }
 }

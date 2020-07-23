@@ -14,6 +14,14 @@ class ChapterRepo @Inject constructor(
     private val cache: BookDB
 ) {
 
+    fun getCachedIndex(): Single<Int> {
+        return cache.getIndex().map { it.index }
+    }
+
+    fun saveIndex(index: Int) {
+        cache.saveIndex(index)
+    }
+
     fun getChapter(chapterIndex: Int): Single<Chapter> {
         return getChapterList()
             .map { it[chapterIndex] }

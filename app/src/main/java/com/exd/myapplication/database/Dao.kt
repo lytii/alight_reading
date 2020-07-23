@@ -6,8 +6,10 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import androidx.room.OnConflictStrategy.REPLACE
 import com.exd.myapplication.models.Book
+import com.exd.myapplication.models.Bookmark
 import com.exd.myapplication.models.Chapter
 import com.exd.myapplication.models.Paragraph
+import io.reactivex.Completable
 import io.reactivex.Maybe
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
@@ -49,11 +51,17 @@ interface BookDao {
     @Query("SELECT * FROM Chapter where (:id) == bookId")
     fun getChapterList(id: Int): List<Chapter>
 
+    @Query("SELECT * FROM Bookmark")
+    fun getIndex(): Bookmark
+
+    @Insert(onConflict = REPLACE)
+    fun saveIndex(bookmark: Bookmark)
+
 }
 
 
 @Database(
-    entities = [Book::class, Chapter::class, Paragraph::class],
+    entities = [Book::class, Chapter::class, Paragraph::class, Bookmark::class],
     version = 1,
     exportSchema = false
 )
@@ -78,12 +86,24 @@ class BookDB @Inject constructor(context: Context) {
             .subscribeOn(Schedulers.io())
     }
 
+    fun getIndex(): Single<Bookmark> {
+        return Maybe.fromCallable { dao.getIndex() }
+            .subscribeOn(Schedulers.io())
+            .toSingle(Bookmark.starting)
+    }
+
+    fun saveIndex(index: Int) {
+        dao.saveIndex(Bookmark(index))
+    }
+
     fun saveChapterList(list: List<Chapter>) {
         dao.saveChapterList(list)
     }
 
     fun getChapterList(bookName: String): Maybe<List<Chapter>> {
-        return Maybe.fromCallable { dao.getChapterList(bookName.hashCode()) }
+        return Maybe.fromCallable {
+            dao.getChapterList(bookName.hashCode()).sortedBy { it.index }
+        }
             .filter { it.isNotEmpty() }
             .subscribeOn(Schedulers.io())
     }

@@ -8,7 +8,10 @@ import com.exd.myapplication.dagger.ActivityComponent
 import com.exd.myapplication.dagger.DaggerChapterViewModelComponent
 import com.exd.myapplication.models.Chapter
 import com.exd.myapplication.repo.ChapterRepo
+import io.reactivex.Completable
+import io.reactivex.Single
 import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class ChapterViewModel : ViewModel() {
@@ -19,6 +22,8 @@ class ChapterViewModel : ViewModel() {
     }
 
     private fun Disposable.unsaved() {}
+
+    val cachedIndex: Int by lazy { 10 }
 
     var index = 0
 
@@ -35,8 +40,15 @@ class ChapterViewModel : ViewModel() {
     private val chapterDataToPushTo = MutableLiveData<Chapter>()
     val chapterDataToBeObserved: LiveData<Chapter> by lazy { chapterDataToPushTo }
 
-    fun loadContent() {
-        repo.getChapter(index)
+    fun loadContent(refreshIndex: Boolean = false) {
+        val indexSingle = if (refreshIndex) {
+            repo.getCachedIndex()
+                .doOnSuccess { index = it }
+        } else {
+            Single.just(index)
+        }
+        indexSingle
+            .flatMap { repo.getChapter(it) }
             .subscribe { chapter -> chapterDataToPushTo.postValue(chapter) }
             .unsaved()
     }
@@ -61,10 +73,25 @@ class ChapterViewModel : ViewModel() {
         }
     }
 
-    private fun nextChapter() {
+    fun nextChapter() {
         repo.getChapterList()
-            .subscribe { list -> if (++index < list.size) loadContent() }
+            .subscribe { list ->
+                if (++index < list.size) {
+                    loadContent()
+                    repo.saveIndex(index)
+                }
+            }
             .unsaved()
+    }
+
+    fun previousChapter() {
+        if (index > 0) {
+            index--
+            loadContent()
+            Completable.fromAction { repo.saveIndex(index) }
+                .subscribeOn(Schedulers.io())
+                .subscribe().unsaved()
+        }
     }
 
     var overScrolled = 0
