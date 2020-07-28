@@ -14,13 +14,10 @@
     </style>
 
     <style name="ExpandedTitle">
+        <item name="android:background">@color/grey</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">25sp</item>
-        <item name="android:ambientShadowAlpha">1</item>
-        <item name="android:shadowDx">0</item>
-        <item name="android:shadowDy">0</item>
         <item name="android:shadowRadius">10</item>
-        <item name="android:state_multiline">true</item>
         <item name="android:shadowColor">@color/black</item>
     </style>
     <style name="CollapsedTitle">

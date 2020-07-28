@@ -32,7 +32,9 @@ class ChapterListFragment : Fragment() {
         view.chapter_list.adapter = adapter
 
         (activity as AppCompatActivity).run { setSupportActionBar(view.toolbar) }
-        view.collapsing_toolbar.isTitleEnabled = true
+        view.cover_image.setImageDrawable(
+            resources.getDrawable(R.drawable.vm_novel_image_top_half, null)
+        )
         val title = getString(R.string.vending_machine_title)
         view.collapsing_toolbar.title = title
     }
