@@ -5,16 +5,21 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ScrollView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.RecyclerView
 import com.exd.myapplication.R
+import com.exd.myapplication.TAG
 import com.exd.myapplication.dagger.ActivityComponent
 import com.exd.myapplication.models.Chapter
+import com.google.android.material.appbar.AppBarLayout
 import dagger.Component
 import io.reactivex.Observable
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_chapter_list.view.*
 import kotlinx.android.synthetic.main.item_chapter.view.*
 import java.util.concurrent.TimeUnit
@@ -32,31 +37,65 @@ class ChapterListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         view.chapter_list.adapter = adapter
-        val wait = 80/2
-        var scroll = -wait
+
+        var scrollingSummaryDisposable = view.book_summary_scroll.slowScroll()
         // disables user touch scrolling on scrollview
-        view.book_summary_scroll.setOnTouchListener { v, event -> true }
-        Observable.interval(50, TimeUnit.MILLISECONDS)
+        view.book_summary_scroll.setOnTouchListener { _, _ -> true }
+
+        // toolbar
+        (activity as AppCompatActivity).run { setSupportActionBar(view.toolbar) }
+        // toolbar cover image
+        val coverDrawable = ResourcesCompat.getDrawable(resources, R.drawable.vm_novel_image, null)
+        view.cover_image.setImageDrawable(coverDrawable)
+        // toolbar title (mostly for collapsed title)
+        val title = getString(R.string.vending_machine_title)
+        view.collapsing_toolbar.title = title
+
+        view.appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, scrollPos ->
+            if (-scrollPos == appBarLayout?.totalScrollRange) {
+                scrollingSummaryDisposable.safeDispose()
+                Log.e(TAG, "onOffsetChanged: collapsed")
+            } else {
+                scrollingSummaryDisposable.safeDispose()
+                scrollingSummaryDisposable = view.book_summary_scroll.slowScroll()
+                Log.e(TAG, "onOffsetChanged: expanded")
+            }
+        })
+    }
+
+    private val wait = 80
+    private var scroll = -wait
+
+    /**
+     * 1. Pause at top,
+     * 2. slowly scroll down,
+     * 3. pause at bottom,
+     * 4. reset to top, repeat step 1.
+     * @param interval : refresh rate to scroll
+     * @param ySpeed : scrolling speed, this low and low [interval] will look smoother
+     */
+    private fun ScrollView.slowScroll(interval: Long = 50, ySpeed: Int = 1): Disposable {
+        return Observable.interval(interval, TimeUnit.MILLISECONDS)
             .subscribe {
-                with(view.book_summary_scroll) {
-                    when {
-                        scroll < 0 -> scroll++
-                        canScrollVertically(1) -> smoothScrollBy(0, 1)
-                        scroll < wait -> scroll++
-                        else -> {
-                            smoothScrollTo(0, 0)
-                            scroll = -wait
-                        }
+                when {
+                    // when negative scroll will increment while doing nothing
+                    scroll < 0 -> scroll++
+                    // scroll down continuously
+                    canScrollVertically(1) -> smoothScrollBy(0, ySpeed)
+                    // wait when we can't scroll anymore
+                    scroll < wait -> scroll++
+                    // reset once we reach bottom and wait limit
+                    else -> {
+                        smoothScrollTo(0, 0)
+                        // wait when we are at top
+                        scroll = -wait
                     }
                 }
             }
+    }
 
-        (activity as AppCompatActivity).run { setSupportActionBar(view.toolbar) }
-        view.cover_image.setImageDrawable(
-            resources.getDrawable(R.drawable.vm_novel_image, null)
-        )
-        val title = getString(R.string.vending_machine_title)
-        view.collapsing_toolbar.title = title
+    private fun Disposable.safeDispose() {
+        if (!this.isDisposed) this.dispose()
     }
 
     private val viewModel: ChapterListViewModel by viewModels()
