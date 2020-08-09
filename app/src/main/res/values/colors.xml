@@ -5,6 +5,7 @@
 <!--    <color name="colorPrimaryDark">#3700B3</color>-->
     <color name="colorPrimaryDark">@color/black</color>
     <color name="colorAccent">#03DAC5</color>
+    <color name="purple">#651FFF</color>
     <color name="black">#030000</color>
     <color name="grey">#282828</color>
     <color name="white">#FFFFFF</color>

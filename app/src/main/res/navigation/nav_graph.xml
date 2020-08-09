@@ -3,11 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/blankFragment">
+    app:startDestination="@id/chapterListFragment">
 
     <fragment
-        android:id="@+id/blankFragment"
+        android:id="@+id/chapterListFragment"
         android:name="com.exd.myapplication.ui.chapterlist.ChapterListFragment"
-        android:label="blank_fragment"
-        tools:layout="@layout/blank_fragment" />
+        android:label="chapter_list_fragment" />
 </navigation>
