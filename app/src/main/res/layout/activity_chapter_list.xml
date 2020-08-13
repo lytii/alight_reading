@@ -67,6 +67,14 @@
             <View
                 android:layout_width="212dp"
                 android:layout_height="150dp"
+                android:layout_toEndOf="@id/cover_image"
+                android:background="@drawable/scrim_top"
+                app:layout_collapseMode="pin"
+                android:fitsSystemWindows="true" />
+
+            <View
+                android:layout_width="212dp"
+                android:layout_height="150dp"
                 android:layout_gravity="bottom"
                 android:layout_toEndOf="@id/cover_image"
                 android:background="@drawable/scrim_bottom" />
