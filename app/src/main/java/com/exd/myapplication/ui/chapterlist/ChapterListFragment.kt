@@ -42,6 +42,7 @@ class ChapterListFragment : Fragment(), ChapterListListener {
     private var adapter = ChapterListAdapter(this)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        activity?.window?.statusBarColor = resources.getColor(android.R.color.transparent, null)
         super.onViewCreated(view, savedInstanceState)
         view.chapter_list.adapter = adapter
 
@@ -71,6 +72,7 @@ class ChapterListFragment : Fragment(), ChapterListListener {
     }
 
     override fun goToChapter(chapterUrl: String) {
+        Thread.sleep(200) // selectable background animation to play before navigating
         val bundle = bundleOf("chapterUrl" to chapterUrl)
         findNavController().navigate(R.id.chapterFragment, bundle)
     }

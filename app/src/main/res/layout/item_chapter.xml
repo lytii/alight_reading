@@ -2,16 +2,18 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="40dp"
-    android:background="?selectableItemBackground"
+    android:background="?backgroundColor"
     android:clickable="true"
+    android:foreground="?selectableItemBackground"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
         android:layout_marginHorizontal="4dp"
-        android:layout_centerVertical="true" />
+        android:textColor="?textColor" />
 
     <View
         android:layout_width="match_parent"

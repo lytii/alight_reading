@@ -18,4 +18,6 @@
 <!--    <color name="translucent_scrim_bottom">#66000000</color>-->
     <color name="translucent_scrim_bottom">#66000000</color>
     <color name="translucent_scrim_bottom_center">#0D000000</color>
+
+    <color name="button_background">#282828</color>
 </resources>

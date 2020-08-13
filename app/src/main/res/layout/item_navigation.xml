@@ -8,22 +8,22 @@
 
     <Button
         android:id="@+id/prev_button"
-        style="?android:buttonBarButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Prev" />
+        android:text="Prev"
+        android:textColor="?textColor" />
 
     <Button
-        style="?android:buttonBarButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="List" />
+        android:text="List"
+        android:textColor="?textColor" />
 
     <Button
         android:id="@+id/next_button"
-        style="?android:buttonBarButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Next" />
+        android:text="Next"
+        android:textColor="?textColor" />
 
 </LinearLayout>

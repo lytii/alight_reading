@@ -8,9 +8,12 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
-
-    <style name="ChapterTitle" parent="TextAppearance.AppCompat.Title">
+    <style name="DarkTheme" parent="AppTheme">
+        <item name="backgroundColor">#1b1b1b</item>
+        <item name="textColor">#ffffff</item>"
     </style>
+
+    <style name="ChapterTitle" parent="TextAppearance.AppCompat.Title"></style>
 
     <style name="ExpandedTitle">
         <item name="android:background">@color/grey</item>
