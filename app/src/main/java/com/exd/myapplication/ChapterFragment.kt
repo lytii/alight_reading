@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import com.exd.myapplication.models.Chapter
 import com.exd.myapplication.view.*
@@ -31,6 +32,11 @@ class ChapterFragment : Fragment(), ChapterNavigationListener {
         setViewModels()
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        arguments?.getString("chapterUrl")?.let {
+            viewModel.loadUrl(it)
+        }
+    }
 
     private val viewModel: ChapterViewModel by viewModels()
 
@@ -50,7 +56,7 @@ class ChapterFragment : Fragment(), ChapterNavigationListener {
             paragraphList.scrollToPosition(position)
         }
         viewModel.chapterDataToBeObserved.observe(viewLifecycleOwner, chapterObserver)
-        viewModel.loadContent(true)
+//        viewModel.loadContent(true)
     }
 
     var prev = false

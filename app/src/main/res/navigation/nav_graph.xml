@@ -8,5 +8,18 @@
     <fragment
         android:id="@+id/chapterListFragment"
         android:name="com.exd.myapplication.ui.chapterlist.ChapterListFragment"
-        android:label="chapter_list_fragment" />
+        android:label="chapter_list_fragment">
+        <action
+            android:id="@+id/action_chapterListFragment_to_chapterFragment"
+            app:destination="@id/chapterFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/chapterFragment"
+        android:name="com.exd.myapplication.ChapterFragment"
+        android:label="chapter_fragment">
+        <argument
+            android:name="chapterUrl"
+            app:argType="string" />
+    </fragment>
 </navigation>

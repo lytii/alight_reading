@@ -40,6 +40,13 @@ class ChapterViewModel : ViewModel() {
     private val chapterDataToPushTo = MutableLiveData<Chapter>()
     val chapterDataToBeObserved: LiveData<Chapter> by lazy { chapterDataToPushTo }
 
+    fun loadUrl(chapterUrl: String) {
+        repo.getChapter(chapterUrl)
+            .doOnSuccess { index = it.index }
+            .subscribe { chapter -> chapterDataToPushTo.postValue(chapter) }
+            .unsaved()
+    }
+
     fun loadContent(refreshIndex: Boolean = false) {
         val indexSingle = if (refreshIndex) {
             repo.getCachedIndex()

@@ -8,9 +8,11 @@ import android.view.ViewGroup
 import android.widget.ScrollView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.exd.myapplication.R
 import com.exd.myapplication.TAG
@@ -24,7 +26,12 @@ import kotlinx.android.synthetic.main.activity_chapter_list.view.*
 import kotlinx.android.synthetic.main.item_chapter.view.*
 import java.util.concurrent.TimeUnit
 
-class ChapterListFragment : Fragment() {
+
+interface ChapterListListener {
+    fun goToChapter(chapterUrl: String)
+}
+
+class ChapterListFragment : Fragment(), ChapterListListener {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,7 +39,7 @@ class ChapterListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.activity_chapter_list, container, false)
 
-    private var adapter = ChapterListAdapter()
+    private var adapter = ChapterListAdapter(this)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -61,6 +68,11 @@ class ChapterListFragment : Fragment() {
                 Log.e(TAG, "onOffsetChanged: expanded")
             }
         })
+    }
+
+    override fun goToChapter(chapterUrl: String) {
+        val bundle = bundleOf("chapterUrl" to chapterUrl)
+        findNavController().navigate(R.id.chapterFragment, bundle)
     }
 
     private val wait = 80
@@ -120,7 +132,7 @@ interface Injector {
     fun injector(): Injector
 }
 
-class ChapterListAdapter : RecyclerView.Adapter<ChapterListHolder>() {
+class ChapterListAdapter(val chapterListListener: ChapterListListener) : RecyclerView.Adapter<ChapterListHolder>() {
     val TAG = "ChapterListAdapter"
 
     private var chapterList: List<Chapter> = emptyList()
@@ -128,7 +140,7 @@ class ChapterListAdapter : RecyclerView.Adapter<ChapterListHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChapterListHolder {
         return LayoutInflater.from(parent.context)
             .inflate(R.layout.item_chapter, parent, false)
-            .let { ChapterListHolder(it) }
+            .let { ChapterListHolder(it, chapterListListener) }
     }
 
     fun setChapterList(list: List<Chapter>) {
@@ -142,13 +154,14 @@ class ChapterListAdapter : RecyclerView.Adapter<ChapterListHolder>() {
         if (position >= chapterList.size) {
             Log.e(TAG, "onBindViewHolder: out of bounds ($position)")
         }
-        holder.bind(chapterList[position].chapterTitle)
+        holder.bind(chapterList[position].chapterTitle, chapterList[position].chapterUrl)
     }
 }
 
-class ChapterListHolder(view: View) : RecyclerView.ViewHolder(view) {
+class ChapterListHolder(view: View, val chapterListListener: ChapterListListener) : RecyclerView.ViewHolder(view) {
 
-    fun bind(title: String) {
+    fun bind(title: String, url: String) {
+        itemView.setOnClickListener { chapterListListener.goToChapter(url) }
         itemView.title.text = title
     }
 }

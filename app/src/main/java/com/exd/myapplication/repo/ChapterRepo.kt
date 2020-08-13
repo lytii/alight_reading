@@ -25,15 +25,22 @@ class ChapterRepo @Inject constructor(
     fun getChapter(chapterIndex: Int): Single<Chapter> {
         return getChapterList()
             .map { it[chapterIndex] }
-            .flatMap { chapter ->
-                if (chapter.paragraphs.isEmpty()) {
-                    return@flatMap getParagraphs(chapter.chapterUrl).map {
-                        chapter.apply { this.paragraphs = it }
-                    }
-                } else {
-                    return@flatMap Single.just(chapter)
-                }
-            }
+            .flatMap(this::getChapterFromNetworkOrCache)
+    }
+
+    fun getChapter(url: String): Single<Chapter> {
+        return getChapterList()
+            .map { it.first { chapter -> chapter.chapterUrl == url } }
+            .flatMap(this::getChapterFromNetworkOrCache)
+    }
+
+    private fun getChapterFromNetworkOrCache(chapter: Chapter): Single<Chapter> {
+        return Single.just(chapter)
+            .filter { it.paragraphs.isNotEmpty() }
+            .switchIfEmpty(
+                getParagraphs(chapter.chapterUrl)
+                    .map { chapter.apply { this.paragraphs = it } }
+            )
     }
 
     private fun getParagraphs(chapterUrl: String): Single<List<Paragraph>> {
