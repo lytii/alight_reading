@@ -53,7 +53,7 @@ class ChapterRepo @Inject constructor(
     }
 
     fun getChapterList(book: WebsiteBook = VENDING_MACHINE): Single<List<Chapter>> {
-        val listFromNetwork = network.getChapterList(book.name)
+        val listFromNetwork = network.getChapterList(book)
             .doAfterSuccess { cache.saveChapterList(it) }
         return cache.getChapterList(book.name)
             .switchIfEmpty(listFromNetwork)

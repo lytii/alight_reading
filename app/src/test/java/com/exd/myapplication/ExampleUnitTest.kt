@@ -1,11 +1,7 @@
 package com.exd.myapplication
 
-import com.exd.myapplication.network.BookApi
-import com.exd.myapplication.network.parseChapterList
-import com.exd.myapplication.network.parseChapter
+import org.junit.Assert.assertEquals
 import org.junit.Test
-
-import org.junit.Assert.*
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -32,6 +28,4 @@ class ExampleUnitTest {
 //        parseChapter(response, chapterUrl)
 //            .printLn()
     }
-
-    fun Any.printLn() = println(this)
 }

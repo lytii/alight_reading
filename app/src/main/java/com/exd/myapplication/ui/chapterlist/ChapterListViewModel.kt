@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import com.exd.myapplication.dagger.ActivityComponent
 import com.exd.myapplication.models.Chapter
 import com.exd.myapplication.repo.ChapterRepo
-import com.exd.myapplication.view.ChapterViewModel.WebsiteBook.VENDING_MACHINE
 import javax.inject.Inject
 
 class ChapterListViewModel : ViewModel() {
@@ -27,7 +26,7 @@ class ChapterListViewModel : ViewModel() {
 
     @SuppressLint("CheckResult")
     fun getChapterList() {
-        repo.getChapterList(VENDING_MACHINE)
+        repo.getChapterList()
             .subscribe { list -> chapterList.postValue(list) }
 
     }
