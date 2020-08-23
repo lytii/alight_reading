@@ -70,8 +70,8 @@
                 android:layout_height="150dp"
                 android:layout_toEndOf="@id/cover_image"
                 android:background="@drawable/scrim_top"
-                app:layout_collapseMode="pin"
-                android:fitsSystemWindows="true" />
+                android:fitsSystemWindows="true"
+                app:layout_collapseMode="pin" />
 
             <View
                 android:layout_width="212dp"
@@ -91,16 +91,11 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.core.widget.NestedScrollView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chapter_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/chapter_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-    </androidx.core.widget.NestedScrollView>
+        android:layout_height="wrap_content"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

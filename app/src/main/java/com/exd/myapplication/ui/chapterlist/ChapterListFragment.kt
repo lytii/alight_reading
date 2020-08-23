@@ -18,13 +18,21 @@ import com.exd.myapplication.R
 import com.exd.myapplication.TAG
 import com.exd.myapplication.dagger.ActivityComponent
 import com.exd.myapplication.models.Chapter
+import com.exd.myapplication.view.OverScrollEffectListener
 import com.google.android.material.appbar.AppBarLayout
 import dagger.Component
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_chapter_list.view.*
 import kotlinx.android.synthetic.main.item_chapter.view.*
+import me.everything.android.ui.overscroll.IOverScrollDecor
+import me.everything.android.ui.overscroll.IOverScrollState
+import me.everything.android.ui.overscroll.IOverScrollState.*
+import me.everything.android.ui.overscroll.IOverScrollStateListener
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
 import java.util.concurrent.TimeUnit
+import javax.security.auth.login.LoginException
 
 
 interface ChapterListListener {
@@ -40,13 +48,24 @@ class ChapterListFragment : Fragment(), ChapterListListener {
     ): View? = inflater.inflate(R.layout.activity_chapter_list, container, false)
 
     private var adapter = ChapterListAdapter(this)
+    private lateinit var scrollingSummaryDisposable: Disposable
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         activity?.window?.statusBarColor = resources.getColor(android.R.color.transparent, null)
         super.onViewCreated(view, savedInstanceState)
         view.chapter_list.adapter = adapter
+        val decor = OverScrollDecoratorHelper.setUpOverScroll(
+            view.chapter_list,
+            OverScrollDecoratorHelper.ORIENTATION_VERTICAL
+        )
+        decor.setOverScrollStateListener { decor, oldState, newState ->
+            Log.e(TAG, "scroll listener ${oldState.toScrollState()} to ${newState.toScrollState()}")
+        }
+        decor.setOverScrollUpdateListener { decor, state, offset ->
+            Log.e(TAG, "scroll update ${state.toScrollState()}: $offset")
+        }
 
-        var scrollingSummaryDisposable = view.book_summary_scroll.slowScroll()
+        scrollingSummaryDisposable = view.book_summary_scroll.slowScroll()
         // disables user touch scrolling on scrollview
         view.book_summary_scroll.setOnTouchListener { _, _ -> true }
 
@@ -58,7 +77,6 @@ class ChapterListFragment : Fragment(), ChapterListListener {
         // toolbar title (mostly for collapsed title)
         val title = getString(R.string.vending_machine_title)
         view.collapsing_toolbar.title = title
-
         view.appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, scrollPos ->
             if (-scrollPos == appBarLayout?.totalScrollRange) {
                 scrollingSummaryDisposable.safeDispose()
@@ -90,7 +108,8 @@ class ChapterListFragment : Fragment(), ChapterListListener {
      */
     private fun ScrollView.slowScroll(interval: Long = 50, ySpeed: Int = 1): Disposable {
         return Observable.interval(interval, TimeUnit.MILLISECONDS)
-            .subscribe {
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
                 when {
                     // when negative scroll will increment while doing nothing
                     scroll < 0 -> scroll++
@@ -105,8 +124,10 @@ class ChapterListFragment : Fragment(), ChapterListListener {
                         scroll = -wait
                     }
                 }
-            }
+            }, { Log.e(TAG, "slowScroll", it) }
+            )
     }
+
 
     private fun Disposable.safeDispose() {
         if (!this.isDisposed) this.dispose()
@@ -134,7 +155,8 @@ interface Injector {
     fun injector(): Injector
 }
 
-class ChapterListAdapter(val chapterListListener: ChapterListListener) : RecyclerView.Adapter<ChapterListHolder>() {
+class ChapterListAdapter(val chapterListListener: ChapterListListener) :
+    RecyclerView.Adapter<ChapterListHolder>() {
     val TAG = "ChapterListAdapter"
 
     private var chapterList: List<Chapter> = emptyList()
@@ -160,10 +182,21 @@ class ChapterListAdapter(val chapterListListener: ChapterListListener) : Recycle
     }
 }
 
-class ChapterListHolder(view: View, val chapterListListener: ChapterListListener) : RecyclerView.ViewHolder(view) {
+class ChapterListHolder(view: View, val chapterListListener: ChapterListListener) :
+    RecyclerView.ViewHolder(view) {
 
     fun bind(title: String, url: String) {
         itemView.setOnClickListener { chapterListListener.goToChapter(url) }
         itemView.title.text = title
+    }
+}
+
+fun Int.toScrollState(): String {
+    return when (this) {
+        STATE_IDLE -> "STATE_IDLE"
+        STATE_DRAG_START_SIDE -> "STATE_DRAG_START_SIDE"
+        STATE_DRAG_END_SIDE -> "STATE_DRAG_END_SIDE"
+        STATE_BOUNCE_BACK -> "STATE_BOUNCE_BACK"
+        else -> "IDK STATE($this)"
     }
 }
