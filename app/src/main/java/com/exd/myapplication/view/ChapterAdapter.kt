@@ -70,7 +70,6 @@ class ChapterAdapter(
 //    }
 
     override fun onBindViewHolder(holder: ChapterHolder, position: Int) {
-        Log.i("ChapterAdater", "onBindViewHolder: $position")
         // 0 = nav
         // 1..chapter0Size = chapter0
         //      chapter[pos-1]

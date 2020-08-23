@@ -3,6 +3,7 @@ package com.exd.myapplication.network
 import com.exd.myapplication.models.Chapter
 import com.exd.myapplication.models.Paragraph
 import com.exd.myapplication.view.ChapterViewModel
+import com.exd.myapplication.view.WebsiteBook
 import com.google.gson.GsonBuilder
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
@@ -50,19 +51,19 @@ abstract class Network {
 
 class BookNetwork @Inject constructor() : Network() {
     private val api = retrofit.create(BookApi::class.java)
-    private lateinit var book: ChapterViewModel.WebsiteBook
+    private lateinit var book: WebsiteBook
 
     /**
      * Get
      */
     fun getChapter(
-        url: String,
-        book: ChapterViewModel.WebsiteBook? = null
-    ): Single<List<Paragraph>> = api.getChapter(url)
+        chapter: Chapter,
+        book: WebsiteBook? = null
+    ): Single<Chapter> = api.getChapter(chapter.chapterUrl)
         .subscribeOn(Schedulers.io())
-        .map { (book ?: this.book).parseChapter(it, url.hashCode()) }
+        .map { (book ?: this.book).parseChapter(it, chapter) }
 
-    fun getChapterList(book: ChapterViewModel.WebsiteBook): Single<List<Chapter>> {
+    fun getChapterList(book: WebsiteBook): Single<List<Chapter>> {
         this.book = book
         return api.getChapter(book.url)
             .subscribeOn(Schedulers.io())

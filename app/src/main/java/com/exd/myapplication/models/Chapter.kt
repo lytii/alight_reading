@@ -17,16 +17,19 @@ data class Book(
 
 @Entity
 data class Chapter(
-    @PrimaryKey
-    val chapterId: Int,
     val chapterTitle: String,
     val chapterUrl: String,
     val bookId: Int,
-    val index: Int
+    val index: Int,
+    @PrimaryKey
+    val chapterId: Int = chapterUrl.hashCode()
 ) {
+    var prevChapterUrl: String? = null
+    var nextChapterUrl: String? = null
+
 
     companion object {
-        val emptyChapter = Chapter(0, "", "", 0, 0)
+        val emptyChapter = Chapter("", "", 0, 0)
     }
 
     @Ignore

@@ -108,7 +108,7 @@ class BookDB @Inject constructor(context: Context) {
             .subscribeOn(Schedulers.io())
     }
 
-    fun addChapter(chapter: Chapter) {
+    fun saveChapter(chapter: Chapter) {
         Log.i(TAG, "addChapter: $chapter")
         dao.addChapter(chapter)
     }
@@ -123,14 +123,10 @@ class BookDB @Inject constructor(context: Context) {
         return dao.getParagraphs(chapterId)
     }
 
-    fun saveParagraphs(
-        chapterId: Int,
-        paragraphs: List<Paragraph>
-    ) {
+    fun saveParagraphs(paragraphs: List<Paragraph>) {
         Log.i(TAG, "addParagraphs: ${paragraphs.first().chapterId}")
         return dao.addParagraphs(paragraphs)
     }
-
 
     fun listenToParagraphs(chapterId: Int): LiveData<List<Paragraph>> {
         return dao.listenToParagraphs(chapterId)

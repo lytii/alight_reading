@@ -12,7 +12,7 @@ import org.jsoup.select.Elements
 
 sealed class WebsiteBook(val url: String) {
     abstract fun parseChapterListUrls(doc: Document): List<Chapter>
-    abstract fun parseChapter(responseBody: ResponseBody, chapterId: Int): List<Paragraph>
+    abstract fun parseChapter(responseBody: ResponseBody, chapter: Chapter): Chapter
 
     /** Chapter list order isn't reliable so use in chapter's next/previous chapter links**/
     open var useInChapterNavigation: Boolean = false
@@ -25,7 +25,7 @@ sealed class WebsiteBook(val url: String) {
             }
         }
 
-        override fun parseChapter(responseBody: ResponseBody, chapterId: Int): List<Paragraph> {
+        override fun parseChapter(responseBody: ResponseBody, chapter: Chapter): Chapter {
             val doc = Jsoup.parse(responseBody.string())
             val title = doc.select(".entry-header > h1.entry-title").text()
             // TODO split foot notes from ".entry-content > ol > li"
@@ -43,7 +43,7 @@ sealed class WebsiteBook(val url: String) {
                 }
             }
 
-            return content.mapIndexedNotNull { index, item ->
+            val paragraphList = content.mapIndexedNotNull { index, item ->
                 if (item.isNavigation()) {
                     return@mapIndexedNotNull null
                 }
@@ -52,9 +52,12 @@ sealed class WebsiteBook(val url: String) {
                 Paragraph(
                     index,
                     paragraph,
-                    chapterId
+                    chapter.chapterUrl.hashCode()
                 )
             }
+
+            chapter.paragraphs = paragraphList
+            return chapter
         }
 
         private fun Element.isNavigation(): Boolean {
@@ -68,7 +71,6 @@ sealed class WebsiteBook(val url: String) {
     protected fun WebsiteBook.toChapter(index: Int, element: Element): Chapter {
         val url = element.attr("href")
         return Chapter(
-            chapterId = url.hashCode(),
             chapterTitle = element.text(),
             chapterUrl = url,
             bookId = name.hashCode(),
