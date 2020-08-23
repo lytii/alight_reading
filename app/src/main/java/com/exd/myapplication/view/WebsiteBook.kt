@@ -68,6 +68,72 @@ sealed class WebsiteBook(val url: String) {
         }
     }
 
+    object DeathMarch : WebsiteBook("https://www.sousetsuka.com/p/blog-page_15.html") {
+        override var useInChapterNavigation: Boolean = true
+
+
+        override fun parseChapter(responseBody: ResponseBody, chapter: Chapter): Chapter {
+            val doc = Jsoup.parse(responseBody.string())
+            val content = doc.select(".entry-content")
+
+            val nav = content.select("a[href]")
+            var prev: String? = null
+            var next: String? = null
+
+
+            val paragraphList = content.first()
+                .childNodes()
+                .filter { !it.isLineBreak() }
+                .mapIndexedNotNull { index, node ->
+                    if (node is Element) {
+                        val linkText = node.select("a[href]")
+                        when {
+                            linkText.text().contains("Previous Chapter", ignoreCase = true) -> {
+                                prev = linkText.attr("href")
+                                return@mapIndexedNotNull null
+                            }
+                            linkText.text().contains("Next Chapter", ignoreCase = true) -> {
+                                next = linkText.attr("href")
+                                return@mapIndexedNotNull null
+                            }
+                            node.getElementsByTag("script").isNotEmpty() ->
+                                return@mapIndexedNotNull null
+                        }
+                    }
+                    val paragraph = node.toString()
+                    Paragraph(
+                        index,
+                        paragraph,
+                        chapter.chapterId
+                    )
+                }
+            return chapter.apply {
+                paragraphs = paragraphList
+                prevChapterUrl = prev
+                nextChapterUrl = next
+            }
+        }
+
+        override fun parseChapterListUrls(doc: Document): List<Chapter> {
+            return doc.select(".entry-content")
+                .map { it.select("a[href]") }
+                .first()
+                .mapIndexed { index, element -> this.toChapter(index, element) }
+        }
+
+        private fun Node.isLineBreak(): Boolean =
+            this is Element && this.tagName() == "br"
+
+        private fun Node.isNewLine(): Boolean =
+            this is TextNode && this.wholeText == "\n"
+
+        private fun Elements.getPreviousUrl(): String? =
+            this.firstOrNull { it.text().contains("Previous Chapter") }?.attr("href")
+
+        private fun Elements.getNextUrl(): String? =
+            this.firstOrNull { it.text().contains("Next Chapter") }?.attr("href")
+    }
+
     protected fun WebsiteBook.toChapter(index: Int, element: Element): Chapter {
         val url = element.attr("href")
         return Chapter(

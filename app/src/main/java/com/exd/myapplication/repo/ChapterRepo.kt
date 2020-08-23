@@ -12,6 +12,9 @@ class ChapterRepo @Inject constructor(
     private val cache: BookDB
 ) {
 
+    // for testing?
+    lateinit var currentBook: WebsiteBook
+
     fun getCachedIndex(): Single<Int> {
         return cache.getIndex().map { it.index }
     }
@@ -40,7 +43,7 @@ class ChapterRepo @Inject constructor(
 
     private fun getParagraphs(chapter: Chapter): Single<Chapter> {
         val fromNetwork: Single<Chapter> = network.getChapter(chapter)
-            .doOnSuccess { cache.saveParagraphs(it.paragraphs) }
+            .doOnSuccess { cache.saveChapter(chapter) }
         // get paragraphs from cache
         return cache.getParagraphMaybe(chapter.chapterUrl)
             .map { chapter.apply { paragraphs = it } }
@@ -48,7 +51,8 @@ class ChapterRepo @Inject constructor(
             .switchIfEmpty(fromNetwork)
     }
 
-    fun getChapterList(book: WebsiteBook = WebsiteBook.VendingMachine): Single<List<Chapter>> {
+    fun getChapterList(book: WebsiteBook = WebsiteBook.DeathMarch): Single<List<Chapter>> {
+        currentBook = book
         val listFromNetwork = network.getChapterList(book)
             .doAfterSuccess { cache.saveChapterList(it) }
         return cache.getChapterList(book.name)

@@ -7,6 +7,7 @@
     <TextView
         android:id="@+id/text"
         android:textColor="?textColor"
+        android:textSize="@dimen/paragraph_text_size"
         android:background="?backgroundColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

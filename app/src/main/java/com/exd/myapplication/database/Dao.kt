@@ -111,6 +111,9 @@ class BookDB @Inject constructor(context: Context) {
     fun saveChapter(chapter: Chapter) {
         Log.i(TAG, "addChapter: $chapter")
         dao.addChapter(chapter)
+        if (chapter.paragraphs.isNotEmpty()) {
+            dao.addParagraphs(chapter.paragraphs)
+        }
     }
 
     fun getParagraphMaybe(chapterUrl: String): Maybe<List<Paragraph>> {
