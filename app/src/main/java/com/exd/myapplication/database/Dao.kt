@@ -110,6 +110,7 @@ class BookDB @Inject constructor(context: Context) {
 
     fun saveChapter(chapter: Chapter) {
         Log.i(TAG, "addChapter: $chapter")
+        chapter.isCached = true
         dao.addChapter(chapter)
         if (chapter.paragraphs.isNotEmpty()) {
             dao.addParagraphs(chapter.paragraphs)

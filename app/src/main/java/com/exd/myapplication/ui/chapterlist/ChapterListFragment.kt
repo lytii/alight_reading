@@ -178,16 +178,22 @@ class ChapterListAdapter(val chapterListListener: ChapterListListener) :
         if (position >= chapterList.size) {
             Log.e(TAG, "onBindViewHolder: out of bounds ($position)")
         }
-        holder.bind(chapterList[position].chapterTitle, chapterList[position].chapterUrl)
+        holder.bind(chapterList[position])
     }
 }
 
 class ChapterListHolder(view: View, val chapterListListener: ChapterListListener) :
     RecyclerView.ViewHolder(view) {
 
-    fun bind(title: String, url: String) {
-        itemView.setOnClickListener { chapterListListener.goToChapter(url) }
-        itemView.title.text = title
+    fun bind(chapter: Chapter) {
+        itemView.setOnClickListener { chapterListListener.goToChapter(chapter.chapterUrl) }
+        itemView.title.text = chapter.chapterTitle
+        val drawable = if (chapter.isCached) {
+            ResourcesCompat.getDrawable(itemView.resources, R.drawable.ic_list_24, null)
+        } else {
+            null
+        }
+        itemView.icon.setImageDrawable(drawable)
     }
 }
 

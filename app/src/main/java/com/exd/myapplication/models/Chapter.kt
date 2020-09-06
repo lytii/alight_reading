@@ -22,7 +22,8 @@ data class Chapter(
     val bookId: Int,
     val index: Int,
     @PrimaryKey
-    val chapterId: Int = chapterUrl.hashCode()
+    val chapterId: Int = chapterUrl.hashCode(),
+    var isCached: Boolean = false
 ) {
     var prevChapterUrl: String? = null
     var nextChapterUrl: String? = null
@@ -39,7 +40,18 @@ data class Chapter(
         return "Chapter(chapterId=$chapterId, " +
                 "chapterTitle='$chapterTitle', " +
                 "chapterUrl='$chapterUrl', " +
-                "paragraphs=${paragraphs.map { '\n' + it.text }}, "
+                "paragraphs=${paragraphs.map { '\n' + it.text }}, "+
+                "isCached=$isCached"
+    }
+
+    fun overallString(): String {
+        return "Chapter(chapterId=$chapterId, " +
+                "chapterTitle='$chapterTitle', " +
+                "chapterUrl='$chapterUrl', " +
+                "paragraphSize=${paragraphs.size}, " +
+                "prevChapterUrl=$prevChapterUrl, " +
+                "nextChapterUrl=$nextChapterUrl, " +
+                "isCached=$isCached"
     }
 }
 
