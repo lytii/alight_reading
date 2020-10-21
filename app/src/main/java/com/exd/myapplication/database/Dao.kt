@@ -34,6 +34,9 @@ interface BookDao {
     fun getChapter(chapterId: Int): Chapter
 
     @Query("SELECT * FROM Chapter where (:url) LIKE chapterUrl")
+    fun getChapter(url: String): Chapter
+
+    @Query("SELECT * FROM Chapter where (:url) LIKE chapterUrl")
     fun listenToChapter(url: String): LiveData<Chapter>
 
     @Insert(onConflict = REPLACE)
@@ -50,6 +53,9 @@ interface BookDao {
 
     @Query("SELECT * FROM Chapter where (:id) == bookId")
     fun getChapterList(id: Int): List<Chapter>
+
+    @Query("SELECT * FROM Chapter where (:id) == bookId AND (:currentIndex) >= `index`")
+    fun getPreviousChapters(id: Int, currentIndex: Int): List<Chapter>
 
     @Query("SELECT * FROM Bookmark")
     fun getIndex(): Bookmark
@@ -108,13 +114,40 @@ class BookDB @Inject constructor(context: Context) {
             .subscribeOn(Schedulers.io())
     }
 
+    fun markPreviousAsCached(bookName: String, index: Int): Completable {
+        return Maybe.fromCallable {
+            dao.getPreviousChapters(bookName.hashCode(), index)
+                .also { list ->
+                    list.forEach { it.isCached = true }
+                    dao.saveChapterList(list)
+                }
+
+        }
+            .ignoreElement()
+            .subscribeOn(Schedulers.io())
+    }
+
     fun saveChapter(chapter: Chapter) {
-        Log.i(TAG, "addChapter: $chapter")
+        Log.v(TAG, "addChapter: $chapter")
         chapter.isCached = true
         dao.addChapter(chapter)
         if (chapter.paragraphs.isNotEmpty()) {
             dao.addParagraphs(chapter.paragraphs)
         }
+    }
+
+    fun getChapter(url: String): Single<Chapter> {
+        return Single.fromCallable { dao.getChapter(url) }
+            .subscribeOn(Schedulers.io())
+            .flatMap { chapter ->
+                Log.d(TAG, "gotChapter: from dao")
+                getParagraphMaybe(url)
+                    .map {
+                        Log.d(TAG, "gotParagraphs: from dao")
+                        chapter.apply { paragraphs = it }
+                    }
+                    .toSingle(chapter)
+            }
     }
 
     fun getParagraphMaybe(chapterUrl: String): Maybe<List<Paragraph>> {

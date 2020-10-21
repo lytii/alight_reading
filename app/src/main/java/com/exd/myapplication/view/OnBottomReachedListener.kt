@@ -4,10 +4,7 @@ import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.*
 
-class OnBottomReachedListener(
-//    onBottomReached: (Boolean) -> Unit
-) : OnScrollListener() {
-    val TAG = "OverScrollListener"
+class OnBottomReachedListener(private val onBottomReached: () -> Unit) : OnScrollListener() {
     var startedLeaving = false
     override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
         super.onScrollStateChanged(recyclerView, newState)
@@ -25,29 +22,30 @@ class OnBottomReachedListener(
 
         if (newState == SCROLL_STATE_DRAGGING && !canScrollDown) {
             // started leaving bottom
-            Log.e(TAG, "onScrollStateChanged: started leaving bottom $state")
+            Log.v(TAG, "onScrollStateChanged: started leaving bottom $state")
         }
         if (newState == SCROLL_STATE_IDLE && canScrollDown) {
             // ending leaving bottom
-            Log.e(TAG, "onScrollStateChanged: ending leaving bottom $state")
+            Log.v(TAG, "onScrollStateChanged: ending leaving bottom $state")
         }
 
-        if(newState == SCROLL_STATE_SETTLING && !canScrollDown) {
-            Log.e(TAG, "onScrollStateChanged: setting can't scroll down")
+        if (newState == SCROLL_STATE_SETTLING && !canScrollDown) {
+            Log.v(TAG, "onScrollStateChanged: setting can't scroll down")
         }
 
-        if(newState == SCROLL_STATE_SETTLING && canScrollDown) {
-            Log.e(TAG, "onScrollStateChanged: setting can scroll down")
+        if (newState == SCROLL_STATE_SETTLING && canScrollDown) {
+            Log.v(TAG, "onScrollStateChanged: setting can scroll down")
         }
 
         if (newState == SCROLL_STATE_DRAGGING && canScrollDown) {
             // started reaching bottom
-            Log.e(TAG, "onScrollStateChanged: started reaching bottom $state")
+            Log.v(TAG, "onScrollStateChanged: started reaching bottom $state")
+            onBottomReached.invoke()
 
         }
         if (newState == SCROLL_STATE_IDLE && !canScrollDown) {
             // ending reaching bottom
-            Log.e(TAG, "onScrollStateChanged: ending reaching bottom $state")
+            Log.v(TAG, "onScrollStateChanged: ending reaching bottom $state")
         }
     }
 }

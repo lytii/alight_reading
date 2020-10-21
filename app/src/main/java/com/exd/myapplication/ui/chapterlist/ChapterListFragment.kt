@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ScrollView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.os.bundleOf
@@ -18,7 +19,6 @@ import com.exd.myapplication.R
 import com.exd.myapplication.TAG
 import com.exd.myapplication.dagger.ActivityComponent
 import com.exd.myapplication.models.Chapter
-import com.exd.myapplication.view.OverScrollEffectListener
 import com.google.android.material.appbar.AppBarLayout
 import dagger.Component
 import io.reactivex.Observable
@@ -26,17 +26,14 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_chapter_list.view.*
 import kotlinx.android.synthetic.main.item_chapter.view.*
-import me.everything.android.ui.overscroll.IOverScrollDecor
-import me.everything.android.ui.overscroll.IOverScrollState
 import me.everything.android.ui.overscroll.IOverScrollState.*
-import me.everything.android.ui.overscroll.IOverScrollStateListener
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
 import java.util.concurrent.TimeUnit
-import javax.security.auth.login.LoginException
 
 
 interface ChapterListListener {
     fun goToChapter(chapterUrl: String)
+    fun markPreviousAsRead(index: Int)
 }
 
 class ChapterListFragment : Fragment(), ChapterListListener {
@@ -64,11 +61,10 @@ class ChapterListFragment : Fragment(), ChapterListListener {
         decor.setOverScrollUpdateListener { decor, state, offset ->
             Log.e(TAG, "scroll update ${state.toScrollState()}: $offset")
         }
+        setUpToolbar(view)
+    }
 
-        scrollingSummaryDisposable = view.book_summary_scroll.slowScroll()
-        // disables user touch scrolling on scrollview
-        view.book_summary_scroll.setOnTouchListener { _, _ -> true }
-
+    private fun setUpToolbar(view: View) {
         // toolbar
         (activity as AppCompatActivity).run { setSupportActionBar(view.toolbar) }
         // toolbar cover image
@@ -87,12 +83,20 @@ class ChapterListFragment : Fragment(), ChapterListListener {
                 Log.e(TAG, "onOffsetChanged: expanded")
             }
         })
+
+        scrollingSummaryDisposable = view.book_summary_scroll.slowScroll()
+        // disables user touch scrolling on scrollview
+        view.book_summary_scroll.setOnTouchListener { _, _ -> true }
     }
 
     override fun goToChapter(chapterUrl: String) {
         Thread.sleep(200) // selectable background animation to play before navigating
         val bundle = bundleOf("chapterUrl" to chapterUrl)
         findNavController().navigate(R.id.chapterFragment, bundle)
+    }
+
+    override fun markPreviousAsRead(index: Int) {
+        viewModel.markPreviousAsRead(index)
     }
 
     private val wait = 80
@@ -106,7 +110,7 @@ class ChapterListFragment : Fragment(), ChapterListListener {
      * @param interval : refresh rate to scroll
      * @param ySpeed : scrolling speed, this low and low [interval] will look smoother
      */
-    private fun ScrollView.slowScroll(interval: Long = 50, ySpeed: Int = 1): Disposable {
+    fun ScrollView.slowScroll(interval: Long = 50, ySpeed: Int = 1): Disposable {
         return Observable.interval(interval, TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -194,6 +198,12 @@ class ChapterListHolder(view: View, val chapterListListener: ChapterListListener
             null
         }
         itemView.icon.setImageDrawable(drawable)
+        itemView.setOnLongClickListener {
+            Log.e(TAG, "bind: marking previous as read")
+            Toast.makeText(itemView.context, "marking previous as read, need to reload", Toast.LENGTH_SHORT).show()
+            chapterListListener.markPreviousAsRead(chapter.index)
+                .let { true }
+        }
     }
 }
 

@@ -8,15 +8,20 @@ import com.exd.myapplication.ChapterNavigationListener
 import com.exd.myapplication.R
 import com.exd.myapplication.models.Chapter
 
+val Any.TAG get() = this.javaClass.name
+
 class ChapterAdapter(
     private val listener: ChapterNavigationListener
 ) : RecyclerView.Adapter<ChapterHolder>() {
     //    private var chapter: Chapter = Chapter.emptyChapter
     private var chapters: MutableList<Chapter> = mutableListOf()
     val prevChapterIndex: Int
-        get() = navIndices[1]
+        get() = navIndices[chapterListIndex]
     val nextChapterIndex: Int
         get() = navIndices[navIndices.lastIndex - 1]
+
+
+    var chapterListIndex = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChapterHolder {
         return when (viewType) {
@@ -32,7 +37,20 @@ class ChapterAdapter(
     fun setChapter(chapter: Chapter) {
 //        this.chapter = chapter
         chapters.add(chapter)
-        chapters = chapters.sortedBy { it.index }.toMutableList()
+        setupNavIndices()
+        notifyDataSetChanged()
+    }
+
+    fun setPrevChapter(chapter: Chapter) {
+        chapters.add(0, chapter)
+        chapterListIndex--
+        setupNavIndices()
+        notifyDataSetChanged()
+    }
+
+    fun setNextChapter(chapter: Chapter) {
+        chapters.add(chapter)
+        chapterListIndex++.also { Log.d(TAG, "chapterList Index: $chapterListIndex") }
         setupNavIndices()
         notifyDataSetChanged()
     }

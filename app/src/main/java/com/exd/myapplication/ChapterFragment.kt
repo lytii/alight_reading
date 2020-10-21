@@ -13,7 +13,6 @@ import com.exd.myapplication.models.Chapter
 import com.exd.myapplication.ui.chapterlist.toScrollState
 import com.exd.myapplication.view.ChapterAdapter
 import com.exd.myapplication.view.ChapterViewModel
-import com.exd.myapplication.view.OnBottomReachedListener
 import kotlinx.android.synthetic.main.activity_chapter.view.*
 import me.everything.android.ui.overscroll.IOverScrollState.STATE_BOUNCE_BACK
 import me.everything.android.ui.overscroll.IOverScrollState.STATE_IDLE
@@ -40,59 +39,77 @@ class ChapterFragment : Fragment(), ChapterNavigationListener {
     var addPrev = false
     var addNext = false
 
+    val bottomReachListener = object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+            if (!recyclerView.canScrollVertically(1)) {
+                viewModel.onBottomReached(true)
+            }
+        }
+    }
+
+    private fun observeWith(paragraphList: RecyclerView, adapter: ChapterAdapter) =
+        Observer<ChapterViewModel.ChapterState> { (chapter, direction, scroll) ->
+            paragraphList.clearOnScrollListeners()
+            paragraphList.addOnScrollListener(bottomReachListener)
+            Log.v(TAG, "setViewModels: ${chapter.overallString()}")
+//            val position = if (prev) chapter.paragraphs.size + 1 else 0
+
+            when (direction) {
+                ChapterViewModel.ChapterDirection.NEXT -> {
+                    adapter.setNextChapter(chapter)
+                    Log.e(TAG, "scroll next ${adapter.nextChapterIndex}")
+                    if (scroll) {
+                        paragraphList.scrollToPosition(adapter.nextChapterIndex)
+                        paragraphList.smoothScrollBy(0, 1000)
+                    }
+                }
+                ChapterViewModel.ChapterDirection.PREV -> {
+                    Log.e(TAG, "scroll prev?")
+                    adapter.setPrevChapter(chapter)
+                    paragraphList.scrollToPosition(adapter.prevChapterIndex)
+                }
+            }
+        }
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setViewModels()
-        val paragraphList = view?.findViewById<RecyclerView>(R.id.paragraph_list)
+        val paragraphList = view.findViewById<RecyclerView>(R.id.paragraph_list)
             ?: throw IllegalStateException("null view for some reason")
 
         val adapter = ChapterAdapter(this)
         paragraphList.adapter = adapter
-        paragraphList.addOnScrollListener(OnBottomReachedListener())
 
         Log.v(TAG, "listening to chapter")
-        val chapterObserver = Observer<Chapter> { chapter ->
-            Log.v(TAG, "setViewModels: ${chapter.chapterId} ${chapter.chapterTitle}")
-            adapter.setChapter(chapter)
-//            val position = if (prev) chapter.paragraphs.size + 1 else 0
-            
-            when {
-                addNext -> {
-                    addNext = false
-                    Log.e(TAG, "scroll next ${adapter.nextChapterIndex}")
-                    paragraphList.smoothScrollBy(0, 600)
-
-                }
-                addPrev -> {
-                    paragraphList.scrollToPosition(adapter.prevChapterIndex + 2)
-                    addPrev = false
-                }
-            }
-
-        }
+        val chapterObserver = observeWith(paragraphList, adapter)
         viewModel.chapterDataToBeObserved.observe(viewLifecycleOwner, chapterObserver)
-//        viewModel.loadContent(true)
-        arguments?.getString("chapterUrl")?.let {
-            viewModel.loadUrl(it)
-        }
+        loadChapterFromArguments()
 
-        val decor = OverScrollDecoratorHelper.setUpOverScroll(
-            view.paragraph_list,
-            OverScrollDecoratorHelper.ORIENTATION_VERTICAL
-        )
-        decor.setOverScrollStateListener { decor, oldState, newState ->
-            if (oldState == STATE_BOUNCE_BACK && newState == STATE_IDLE) {
-                when {
-                    addPrev -> onPrev()
-                    addNext -> onNext()
-                }
-            }
-        }
-        decor.setOverScrollUpdateListener { decor, state, offset ->
-            when {
-                offset > 300 -> addPrev = true
-                offset < -300 -> addNext = true
-            }
-        }
+//        val decor = OverScrollDecoratorHelper.setUpOverScroll(
+//            view.paragraph_list,
+//            OverScrollDecoratorHelper.ORIENTATION_VERTICAL
+//        )
+//        decor.setOverScrollStateListener { decor, oldState, newState ->
+//            Log.v(TAG, "onViewCreated: ${oldState.toScrollState()} ${newState.toScrollState()}")
+//            if (oldState == STATE_BOUNCE_BACK && newState == STATE_IDLE) {
+//                when {
+//                    addPrev -> onPrev()
+//                    addNext -> onNext()
+//                }
+//            }
+//        }
+//        decor.setOverScrollUpdateListener { decor, state, offset ->
+//            when {
+//                offset > 300 -> addPrev = true
+//                offset < -300 -> addNext = true
+//            }
+//        }
+    }
+
+    private fun loadChapterFromArguments() {
+        Log.w(TAG, "loadChapterFromArguments: ")
+        arguments?.getString("chapterUrl")?.let { viewModel.loadUrl(it) }
     }
 
     infix fun Int.stateTo(other: Int): String {
@@ -109,12 +126,14 @@ class ChapterFragment : Fragment(), ChapterNavigationListener {
     var prev = false
 
     override fun onNext() {
+        addNext = true
         Log.e(TAG, "onNext: ")
 //        prev = false
         viewModel.nextChapter()
     }
 
     override fun onPrev() {
+        addPrev = true
         Log.e(TAG, "onPrev: ")
 //        prev = true
         viewModel.previousChapter()

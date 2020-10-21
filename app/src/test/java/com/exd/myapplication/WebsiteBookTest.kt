@@ -2,7 +2,6 @@ package com.exd.myapplication
 
 import com.exd.myapplication.network.BookNetwork
 import com.exd.myapplication.view.WebsiteBook
-import com.nhaarman.mockitokotlin2.whenever
 import org.junit.Test
 
 class WebsiteBookTest {
@@ -16,7 +15,7 @@ class WebsiteBookTest {
     fun parseDeathMarch() {
         bookNetwork.getChapterList(book)
             .blockingGet()
-            .printLn()
+            .println()
     }
 
     @Test
@@ -24,7 +23,7 @@ class WebsiteBookTest {
         val chapter = bookNetwork.getChapterList(book).blockingGet()[6]
         bookNetwork.getChapter(chapter, book)
             .blockingGet()
-            .printLn()
+            .println()
     }
 
 }

@@ -23,6 +23,18 @@ class ChapterViewModel : ViewModel() {
 
     var index = 0
 
+    /**
+     * @param addChapter: chapter to add to the scroll list of chapters
+     * @param direction: prepend or append to list based on previous or next chapter
+     */
+    data class ChapterState(
+        val addChapter: Chapter,
+        val direction: ChapterDirection,
+        val scroll: Boolean
+    )
+
+    enum class ChapterDirection { PREV, NEXT }
+
     @Inject
     lateinit var repo: ChapterRepo
 
@@ -33,17 +45,46 @@ class ChapterViewModel : ViewModel() {
             .inject(this)
     }
 
-    private val chapterDataToPushTo = MutableLiveData<Chapter>()
-    val chapterDataToBeObserved: LiveData<Chapter> by lazy { chapterDataToPushTo }
+    private val chapterToPushTo = MutableLiveData<ChapterState>()
+    val chapterDataToBeObserved: LiveData<ChapterState> by lazy { chapterToPushTo }
+
+    private fun Chapter.stateNext() = ChapterState(this, ChapterDirection.NEXT, true)
+    private fun Chapter.statePrev() = ChapterState(this, ChapterDirection.PREV, true)
+    private fun Chapter.asState(direction: ChapterDirection, scroll: Boolean) =
+        ChapterState(this, direction, scroll)
 
     fun loadUrl(chapterUrl: String) {
+        Log.e(TAG, "loadUrl: $chapterUrl")
         repo.getChapter(chapterUrl)
             .doOnSuccess { index = it.index }
-            .subscribe { chapter -> chapterDataToPushTo.postValue(chapter) }
+            .subscribe { chapter ->
+                Log.e(TAG, "loadedUrl: $chapterUrl")
+                chapterToPushTo.postValue(chapter.asState(ChapterDirection.NEXT, false))
+            }
             .unsaved()
     }
 
-    fun loadContent(refreshIndex: Boolean = false) {
+    /**
+     * When bottom reached, preload next chapter and place it in scroll list
+     */
+    fun onBottomReached(reached: Boolean) {
+        Log.i("cvm", "onBottomReached")
+        chapterDataToBeObserved.value?.addChapter?.nextChapterUrl?.let {
+            Log.w("cvm", "onBottomReached getting $it")
+            repo.getChapter(it)
+                .subscribe { chapter ->
+                    chapterToPushTo.postValue(
+                        chapter.asState(
+                            ChapterDirection.NEXT,
+                            false
+                        )
+                    )
+                }
+                .unsaved()
+        }
+    }
+
+    fun loadContent(direction: ChapterDirection, refreshIndex: Boolean = false) {
         val indexSingle = if (refreshIndex) {
             repo.getCachedIndex()
                 .doOnSuccess { index = it }
@@ -52,7 +93,7 @@ class ChapterViewModel : ViewModel() {
         }
         indexSingle
             .flatMap { repo.getChapter(it) }
-            .subscribe { chapter -> chapterDataToPushTo.postValue(chapter) }
+            .subscribe { chapter -> chapterToPushTo.postValue(chapter.asState(direction, true)) }
             .unsaved()
     }
 
@@ -77,10 +118,28 @@ class ChapterViewModel : ViewModel() {
     }
 
     fun nextChapter() {
+        Log.v(TAG, "nextChapter")
+        if (repo.currentBook.useInChapterNavigation) {
+            getNextChapterByNavigation()
+        } else {
+            getNextChapterByIndex()
+        }
+    }
+
+    private fun getNextChapterByNavigation() {
+        chapterDataToBeObserved.value?.addChapter?.nextChapterUrl?.let {
+            Log.e(TAG, "getNextChapterByNavigation: $it")
+            repo.getChapter(it)
+                .subscribe { chapter -> chapterToPushTo.postValue(chapter.stateNext()) }
+                .unsaved()
+        }
+    }
+
+    private fun getNextChapterByIndex() {
         repo.getChapterList()
             .subscribe { list ->
                 if (++index < list.size) {
-                    loadContent()
+                    loadContent(ChapterDirection.NEXT)
                     repo.saveIndex(index)
                 }
             }
@@ -90,7 +149,7 @@ class ChapterViewModel : ViewModel() {
     fun previousChapter() {
         if (index > 0) {
             index--
-            loadContent()
+            loadContent(ChapterDirection.PREV)
             Completable.fromAction { repo.saveIndex(index) }
                 .subscribeOn(Schedulers.io())
                 .subscribe().unsaved()
@@ -99,22 +158,6 @@ class ChapterViewModel : ViewModel() {
 
     var overScrolled = 0
     var overScrolledUp = 0
-
-    fun onBottomReached(reached: Boolean) {
-        if (!reached) {
-            Log.d("model", "resetting overScroll")
-            overScrolled = 0
-        }
-//        else if (overScrolled > 1) {
-//            overScrolled = 0
-//            if (index < bookData.value?.chapterList?.size ?: 0) {
-//                index++
-//                setContent()
-//            }
-//            Log.e("model", "trigger over scroll function")
-//        }
-        Log.e("model", "onBottomReached: $reached")
-    }
 
     fun onTopReached(reached: Boolean) {
         if (!reached) {

@@ -51,7 +51,7 @@ abstract class Network {
 
 class BookNetwork @Inject constructor() : Network() {
     private val api = retrofit.create(BookApi::class.java)
-    private lateinit var book: WebsiteBook
+    private val book: WebsiteBook = WebsiteBook.DeathMarch
 
     /**
      * Get
@@ -64,7 +64,7 @@ class BookNetwork @Inject constructor() : Network() {
         .map { (book ?: this.book).parseChapter(it, chapter) }
 
     fun getChapterList(book: WebsiteBook): Single<List<Chapter>> {
-        this.book = book
+//        this.book = book
         return api.getChapter(book.url)
             .subscribeOn(Schedulers.io())
             .map { Jsoup.parse(it.string()) }

@@ -1,0 +1,627 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AndroidLayouts">
+    <shared>
+      <config />
+    </shared>
+  </component>
+  <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_LOG_LEVEL" value="debug" />
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
+    <option name="LOGCAT_FORMAT_STRING" value="%1$s %4$c/%5$s: %6$s" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="dc20f260-226c-4820-bc7f-17a7e535a738" name="Default Changelist" comment="add text protection scrim for readability&#10;https://blog.iamsuleiman.com/techniques-to-display-text-overlay-background-images/">
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/exd/myapplication/ChapterFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/exd/myapplication/ChapterFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/exd/myapplication/database/Dao.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/exd/myapplication/database/Dao.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/exd/myapplication/repo/ChapterRepo.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/exd/myapplication/repo/ChapterRepo.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/exd/myapplication/ui/chapterlist/ChapterListFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/exd/myapplication/ui/chapterlist/ChapterListFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/exd/myapplication/ui/chapterlist/ChapterListViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/exd/myapplication/ui/chapterlist/ChapterListViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/exd/myapplication/view/ChapterAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/exd/myapplication/view/ChapterAdapter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/exd/myapplication/view/ChapterViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/exd/myapplication/view/ChapterViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/exd/myapplication/view/OnBottomReachedListener.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/exd/myapplication/view/OnBottomReachedListener.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_list_24.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_list_24.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_navigation.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_navigation.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/test/java/com/exd/myapplication/ExampleUnitTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/test/java/com/exd/myapplication/ExampleUnitTest.kt" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="8B5Y0U3JN" />
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="My Application" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="navigationResourceFile" />
+        <option value="layoutResourceFile" />
+        <option value="resourceFile" />
+        <option value="valueResourceFile" />
+        <option value="Kotlin Class" />
+        <option value="Kotlin File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1dcRBpMX40BoyNw1Hcro8sh2O55" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DEBUGGABLE_DEVICE" value="emulator-5554" />
+    <property name="DEBUGGABLE_PROCESS" value="com.exd.myapplication" />
+    <property name="DEBUGGER_ID" value="Auto" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="Nexus_5X_API_29_x86" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-09-06T05:57:03.592Z" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="SHOW_ALL_PROCESSES" value="false" />
+    <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
+    <property name="com.developerphil.adbidea.selecteddevices" value="8B5Y0U3JN" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="Groovy JUnit" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.Groovy JUnit" value="" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/test/java/com/exd/myapplication" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Desktop" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.17" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
+      <recent name="com.exd.myapplication" />
+      <recent name="com.exd.myapplication.ui.chapterlist" />
+      <recent name="com.exd.myapplication.view" />
+      <recent name="com.exd.myapplication.dagger" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="com.exd.myapplication.dagger" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.exd.myapplication" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\cluel\AndroidStudioProjects\MyApplication\app\src\main\res\drawable" />
+      <recent name="C:\Users\cluel\AndroidStudioProjects\MyApplication\app\src\main\res\layout" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\cluel\AndroidStudioProjects\MyApplication\app\src\main\java\com\exd\myapplication\ui\chapterlist" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Android App.app">
+    <configuration name="ExampleUnitTest.reuseTime" type="AndroidJUnit" factoryName="Android JUnit" temporary="true" nameIsGenerated="true">
+      <module name="app" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.exd.myapplication.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.exd.myapplication" />
+      <option name="MAIN_CLASS_NAME" value="com.exd.myapplication.ExampleUnitTest" />
+      <option name="METHOD_NAME" value="reuseTime" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WebsiteBookTest.parseDeathMarch" type="AndroidJUnit" factoryName="Android JUnit" temporary="true" nameIsGenerated="true">
+      <module name="app" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.exd.myapplication.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.exd.myapplication" />
+      <option name="MAIN_CLASS_NAME" value="com.exd.myapplication.WebsiteBookTest" />
+      <option name="METHOD_NAME" value="parseDeathMarch" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WebsiteBookTest.parseDeathMarchChapter" type="AndroidJUnit" factoryName="Android JUnit" temporary="true" nameIsGenerated="true">
+      <module name="app" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.exd.myapplication.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.exd.myapplication" />
+      <option name="MAIN_CLASS_NAME" value="com.exd.myapplication.WebsiteBookTest" />
+      <option name="METHOD_NAME" value="parseDeathMarchChapter" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
+      <module name="app" />
+      <option name="DEPLOY" value="true" />
+      <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
+      <option name="DEPLOY_AS_INSTANT" value="false" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
+      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
+      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
+      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
+      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
+      <option name="DEBUGGER_TYPE" value="Auto" />
+      <Auto>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Auto>
+      <Hybrid>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Hybrid>
+      <Java />
+      <Native>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Native>
+      <Profilers>
+        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Sample Java Methods" />
+      </Profilers>
+      <option name="DEEP_LINK" value="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ExampleUnitTest.isomorph" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="app" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.exd.myapplication.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.exd.myapplication" />
+      <option name="MAIN_CLASS_NAME" value="com.exd.myapplication.ExampleUnitTest" />
+      <option name="METHOD_NAME" value="isomorph" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ExampleUnitTest.seat" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="app" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.exd.myapplication.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.exd.myapplication" />
+      <option name="MAIN_CLASS_NAME" value="com.exd.myapplication.ExampleUnitTest" />
+      <option name="METHOD_NAME" value="seat" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Android JUnit.ExampleUnitTest.reuseTime" />
+        <item itemvalue="Android JUnit.WebsiteBookTest.parseDeathMarchChapter" />
+        <item itemvalue="Android JUnit.WebsiteBookTest.parseDeathMarch" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task id="Default" summary="Default task">
+      <changelist id="dc20f260-226c-4820-bc7f-17a7e535a738" name="Default Changelist" comment="" />
+      <created>1592722261082</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1593830242232</updated>
+    </task>
+    <task active="true" id="LOCAL-00001" summary="linearlayout">
+      <created>1593830211164</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1593830242232</updated>
+    </task>
+    <task id="LOCAL-00002" summary="add chapter and paragraphs&#10;now listening to db and updating from network when null or empty&#10;POC overscroll to go to next chapter&#10;POC underscroll go to prev chapter&#10;also add dagger injection">
+      <created>1593975200126</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1593975200126</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Overscroll effect or strong scroll effect">
+      <created>1594965482167</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1594965482167</updated>
+    </task>
+    <task id="LOCAL-00004" summary="add repo layer between cache/network and view model&#10;&#10;- use rx when using repo from view model">
+      <created>1595267503767</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1595267503767</updated>
+    </task>
+    <task id="LOCAL-00005" summary="add repo layer between cache/network and view model&#10;&#10;- use rx when using repo from view model">
+      <created>1595305473530</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1595305473530</updated>
+    </task>
+    <task id="LOCAL-00006" summary="add navigation as last and first item (only prev,next implemented)&#10;save chapter index to room">
+      <created>1595490906152</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1595490906153</updated>
+    </task>
+    <task id="LOCAL-00007" summary="add chapter list with collapsible toolbar">
+      <created>1595832778593</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1595832778593</updated>
+    </task>
+    <task id="LOCAL-00008" summary="add text protection scrim for readability&#10;https://blog.iamsuleiman.com/techniques-to-display-text-overlay-background-images/">
+      <created>1595905687158</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1595905687158</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="add chapter and paragraphs&#10;now listening to db and updating from network when null or empty&#10;POC overscroll to go to next chapter&#10;POC underscroll go to prev chapter&#10;also add dagger injection" />
+    <MESSAGE value="Overscroll effect or strong scroll effect" />
+    <MESSAGE value="add repo layer between cache/network and view model&#10;&#10;- use rx when using repo from view model" />
+    <MESSAGE value="add navigation as last and first item (only prev,next implemented)&#10;save chapter index to room" />
+    <MESSAGE value="add chapter list with collapsible toolbar" />
+    <MESSAGE value="add text protection scrim for readability" />
+    <MESSAGE value="add text protection scrim for readability&#10;https://blog.iamsuleiman.com/techniques-to-display-text-overlay-background-images/" />
+    <option name="LAST_COMMIT_MESSAGE" value="add text protection scrim for readability&#10;https://blog.iamsuleiman.com/techniques-to-display-text-overlay-background-images/" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="830" y="432" key="#PSD" timestamp="1596759419704">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="830" y="432" key="#PSD/0.0.2560.1400@0.0.2560.1400" timestamp="1596759419704" />
+    <state x="240" y="358" key="#Plugins" timestamp="1593971692882">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="240" y="358" key="#Plugins/0.0.2560.1400@0.0.2560.1400" timestamp="1593971692882" />
+    <state x="1032" y="345" key="#app" timestamp="1596747458966">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="1032" y="345" key="#app/0.0.2560.1400@0.0.2560.1400" timestamp="1596747458966" />
+    <state x="1029" y="536" key="#com.intellij.ide.actions.ChooseComponentsToExportDialog" timestamp="1595487452588">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="1029" y="536" key="#com.intellij.ide.actions.ChooseComponentsToExportDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1595487452588" />
+    <state x="1029" y="443" key="#com.intellij.ide.util.MemberChooser" timestamp="1599371128911">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state x="1029" y="431" key="#com.intellij.ide.util.MemberChooser/0.0.2560.1400@0.0.2560.1400" timestamp="1597819043669" />
+    <state x="1029" y="443" key="#com.intellij.ide.util.MemberChooser/0.0.2560.1440@0.0.2560.1440" timestamp="1599371128911" />
+    <state x="960" y="436" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1595381942824">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="960" y="436" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1595381942824" />
+    <state x="1465" y="629" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1596754573447">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="1465" y="629" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1596754573447" />
+    <state x="1716" y="584" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.packages" timestamp="1596754575095">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="1716" y="584" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.packages/0.0.2560.1400@0.0.2560.1400" timestamp="1596754575095" />
+    <state x="1402" y="539" key="#com.intellij.refactoring.move.moveInner.MoveInnerDialog" timestamp="1598170520469">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state x="1402" y="539" key="#com.intellij.refactoring.move.moveInner.MoveInnerDialog/0.0.2560.1440@0.0.2560.1440" timestamp="1598170520469" />
+    <state x="436" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1598212800931">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state x="436" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1595480471900" />
+    <state x="436" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.2560.1440@0.0.2560.1440" timestamp="1598212800931" />
+    <state x="1059" y="362" width="450" height="695" key="#org.jetbrains.kotlin.idea.refactoring.move.moveDeclarations.ui.MoveKotlinTopLevelDeclarationsDialog" timestamp="1599199407828">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state x="1059" y="352" width="450" height="695" key="#org.jetbrains.kotlin.idea.refactoring.move.moveDeclarations.ui.MoveKotlinTopLevelDeclarationsDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1595749502602" />
+    <state x="1059" y="362" key="#org.jetbrains.kotlin.idea.refactoring.move.moveDeclarations.ui.MoveKotlinTopLevelDeclarationsDialog/0.0.2560.1440@0.0.2560.1440" timestamp="1599199407828" />
+    <state x="1450" y="629" key="#org.jetbrains.kotlin.idea.refactoring.move.moveTopLevelDeclarations.ui.KotlinSelectInnerOrMembersRefactoringDialog" timestamp="1598170519284">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state x="1450" y="629" key="#org.jetbrains.kotlin.idea.refactoring.move.moveTopLevelDeclarations.ui.KotlinSelectInnerOrMembersRefactoringDialog/0.0.2560.1440@0.0.2560.1440" timestamp="1598170519284" />
+    <state x="1203" y="466" width="411" height="494" key="#xdebugger.XInspectDialog" timestamp="1598167781776">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state x="1203" y="453" key="#xdebugger.XInspectDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1593902824522" />
+    <state x="1203" y="466" width="411" height="494" key="#xdebugger.XInspectDialog/0.0.2560.1440@0.0.2560.1440" timestamp="1598167781776" />
+    <state x="661" y="656" width="715" height="585" key="#xdebugger.evaluate" timestamp="1599197785161">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state x="1037" y="314" width="1263" height="817" key="#xdebugger.evaluate/0.0.2560.1400@0.0.2560.1400" timestamp="1595189883802" />
+    <state x="661" y="656" width="715" height="585" key="#xdebugger.evaluate/0.0.2560.1440@0.0.2560.1440" timestamp="1599197785161" />
+    <state x="1462" y="473" key="AndroidCreateResourceFileDialog" timestamp="1597305441472">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="1462" y="473" key="AndroidCreateResourceFileDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1597305441472" />
+    <state x="1138" y="528" key="AndroidCreateXmlResourceDialog" timestamp="1598174793469">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state x="1138" y="513" key="AndroidCreateXmlResourceDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1595788340458" />
+    <state x="1138" y="528" key="AndroidCreateXmlResourceDialog/0.0.2560.1440@0.0.2560.1440" timestamp="1598174793469" />
+    <state x="1135" y="478" key="AndroidProcessChooserDialog" timestamp="1599370281600">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state x="1135" y="465" key="AndroidProcessChooserDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1597822415013" />
+    <state x="1135" y="478" key="AndroidProcessChooserDialog/0.0.2560.1440@0.0.2560.1440" timestamp="1599370281600" />
+    <state x="1064" y="0" width="1426" height="1400" key="CommitChangelistDialog2" timestamp="1599370784360">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state x="1064" y="0" width="1426" height="1400" key="CommitChangelistDialog2/0.0.2560.1400@0.0.2560.1400" timestamp="1597122531447" />
+    <state x="1064" y="0" key="CommitChangelistDialog2/0.0.2560.1440@0.0.2560.1440" timestamp="1599370784360" />
+    <state width="414" height="480" key="DebuggerActiveHint" timestamp="1599197800504">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state width="414" height="466" key="DebuggerActiveHint/0.0.2560.1400@0.0.2560.1400" timestamp="1593902806400" />
+    <state width="414" height="480" key="DebuggerActiveHint/0.0.2560.1440@0.0.2560.1440" timestamp="1599197800504" />
+    <state x="496" y="125" width="2048" height="1181" key="DiffContextDialog" timestamp="1598170286207">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state x="496" y="122" width="2048" height="1148" key="DiffContextDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1597819235116" />
+    <state x="496" y="125" width="2048" height="1181" key="DiffContextDialog/0.0.2560.1440@0.0.2560.1440" timestamp="1598170286207" />
+    <state x="631" y="455" key="FileChooserDialogImpl" timestamp="1595913158575">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="631" y="455" key="FileChooserDialogImpl/0.0.2560.1400@0.0.2560.1400" timestamp="1595913158575" />
+    <state width="0" height="0" key="GridCell.Tab.0.bottom" timestamp="1599373048472">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state width="1724" height="573" key="GridCell.Tab.0.bottom/0.0.2560.1400@0.0.2560.1400" timestamp="1597823965035" />
+    <state width="0" height="0" key="GridCell.Tab.0.bottom/0.0.2560.1440@0.0.2560.1440" timestamp="1599373048472" />
+    <state width="0" height="0" key="GridCell.Tab.0.center" timestamp="1599373048472">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state width="1724" height="573" key="GridCell.Tab.0.center/0.0.2560.1400@0.0.2560.1400" timestamp="1597823965035" />
+    <state width="0" height="0" key="GridCell.Tab.0.center/0.0.2560.1440@0.0.2560.1440" timestamp="1599373048472" />
+    <state width="0" height="0" key="GridCell.Tab.0.left" timestamp="1599373048472">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state width="1724" height="573" key="GridCell.Tab.0.left/0.0.2560.1400@0.0.2560.1400" timestamp="1597823965035" />
+    <state width="0" height="0" key="GridCell.Tab.0.left/0.0.2560.1440@0.0.2560.1440" timestamp="1599373048472" />
+    <state width="0" height="0" key="GridCell.Tab.0.right" timestamp="1599373048472">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state width="1724" height="573" key="GridCell.Tab.0.right/0.0.2560.1400@0.0.2560.1400" timestamp="1597823965035" />
+    <state width="0" height="0" key="GridCell.Tab.0.right/0.0.2560.1440@0.0.2560.1440" timestamp="1599373048472" />
+    <state width="1724" height="468" key="GridCell.Tab.1.bottom" timestamp="1599370348779">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state width="1724" height="489" key="GridCell.Tab.1.bottom/0.0.2560.1400@0.0.2560.1400" timestamp="1597823965034" />
+    <state width="1724" height="468" key="GridCell.Tab.1.bottom/0.0.2560.1440@0.0.2560.1440" timestamp="1599370348779" />
+    <state width="1724" height="468" key="GridCell.Tab.1.center" timestamp="1599370348779">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state width="1724" height="489" key="GridCell.Tab.1.center/0.0.2560.1400@0.0.2560.1400" timestamp="1597823965034" />
+    <state width="1724" height="468" key="GridCell.Tab.1.center/0.0.2560.1440@0.0.2560.1440" timestamp="1599370348779" />
+    <state width="1724" height="468" key="GridCell.Tab.1.left" timestamp="1599370348779">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state width="1724" height="489" key="GridCell.Tab.1.left/0.0.2560.1400@0.0.2560.1400" timestamp="1597823965034" />
+    <state width="1724" height="468" key="GridCell.Tab.1.left/0.0.2560.1440@0.0.2560.1440" timestamp="1599370348779" />
+    <state width="1724" height="468" key="GridCell.Tab.1.right" timestamp="1599370348779">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state width="1724" height="489" key="GridCell.Tab.1.right/0.0.2560.1400@0.0.2560.1400" timestamp="1597823965034" />
+    <state width="1724" height="468" key="GridCell.Tab.1.right/0.0.2560.1440@0.0.2560.1440" timestamp="1599370348779" />
+    <state x="1223" y="426" key="RollbackChangesDialog" timestamp="1597306495079">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="1223" y="426" key="RollbackChangesDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1597306495079" />
+    <state x="1011" y="576" key="ScreenshotRecorder.Options.Dimensions" timestamp="1595913145196">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="1011" y="576" key="ScreenshotRecorder.Options.Dimensions/0.0.2560.1400@0.0.2560.1400" timestamp="1595913145196" />
+    <state x="902" y="0" key="ScreenshotViewer.Dimensions" timestamp="1595746635791">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="902" y="0" key="ScreenshotViewer.Dimensions/0.0.2560.1400@0.0.2560.1400" timestamp="1595746635791" />
+    <state x="781" y="342" key="SettingsEditor" timestamp="1595815360715">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="781" y="342" key="SettingsEditor/0.0.2560.1400@0.0.2560.1400" timestamp="1595815360715" />
+    <state x="750" y="615" key="SimpleOpenTaskDialog" timestamp="1593830242260">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="750" y="615" key="SimpleOpenTaskDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1593830242260" />
+    <state x="1394" y="451" width="540" height="524" key="StructurePopup" timestamp="1596173034217">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="1394" y="451" width="540" height="524" key="StructurePopup/0.0.2560.1400@0.0.2560.1400" timestamp="1596173034217" />
+    <state width="498" height="446" key="SwitcherDM" timestamp="1596954696329">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="498" height="446" key="SwitcherDM/0.0.2560.1400@0.0.2560.1400" timestamp="1596954696329" />
+    <state width="1288" height="729" key="XDebugger.FullValuePopup" timestamp="1598172914765">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state width="1288" height="708" key="XDebugger.FullValuePopup/0.0.2560.1400@0.0.2560.1400" timestamp="1597822455840" />
+    <state width="1288" height="729" key="XDebugger.FullValuePopup/0.0.2560.1440@0.0.2560.1440" timestamp="1598172914765" />
+    <state x="1108" y="490" key="chooseDestDirectoryDialog" timestamp="1596070223499">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="1108" y="490" key="chooseDestDirectoryDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1596070223499" />
+    <state x="1363" y="540" key="com.developerphil.adbidea.ui.DeviceChooserDialog" timestamp="1599370594135">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state x="1363" y="540" key="com.developerphil.adbidea.ui.DeviceChooserDialog/0.0.2560.1440@0.0.2560.1440" timestamp="1599370594135" />
+    <state x="548" y="524" key="com.intellij.ide.util.TipDialog" timestamp="1593830196360">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="548" y="524" key="com.intellij.ide.util.TipDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1593830196360" />
+    <state x="885" y="339" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1599198635364">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state x="885" y="330" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.2560.1400@0.0.2560.1400" timestamp="1597308125778" />
+    <state x="885" y="339" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.2560.1440@0.0.2560.1440" timestamp="1599198635364" />
+    <state x="1089" y="617" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1595870798736">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="1089" y="617" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.2560.1400@0.0.2560.1400" timestamp="1595870798736" />
+    <state x="797" y="436" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1597822385783">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="797" y="436" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.0.2560.1400@0.0.2560.1400" timestamp="1597822385783" />
+    <state x="1373" y="100" width="1094" height="1207" key="dock-window-1" timestamp="1596173763403">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="1373" y="100" width="1094" height="1207" key="dock-window-1/0.0.2560.1400@0.0.2560.1400" timestamp="1596173763403" />
+    <state x="934" y="460" width="1063" height="859" key="find.popup" timestamp="1598208096574">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state x="934" y="447" width="1063" height="835" key="find.popup/0.0.2560.1400@0.0.2560.1400" timestamp="1597306592910" />
+    <state x="934" y="460" width="1063" height="859" key="find.popup/0.0.2560.1440@0.0.2560.1440" timestamp="1598208096574" />
+    <state x="1063" y="415" key="org.jetbrains.kotlin.idea.testIntegration.KotlinCreateTestDialog" timestamp="1596070223539">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="1063" y="415" key="org.jetbrains.kotlin.idea.testIntegration.KotlinCreateTestDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1596070223539" />
+    <state x="1003" y="342" key="refactoring.ChangeSignatureDialog" timestamp="1597302507798">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="1003" y="342" key="refactoring.ChangeSignatureDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1597302507798" />
+    <state x="1576" y="344" width="672" height="697" key="run.anything.popup" timestamp="1598168117657">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state x="1576" y="334" width="672" height="677" key="run.anything.popup/0.0.2560.1400@0.0.2560.1400" timestamp="1597307095350" />
+    <state x="1576" y="344" width="672" height="697" key="run.anything.popup/0.0.2560.1440@0.0.2560.1440" timestamp="1598168117657" />
+    <state x="507" y="367" width="672" height="696" key="search.everywhere.popup" timestamp="1599372949791">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state x="507" y="357" width="672" height="676" key="search.everywhere.popup/0.0.2560.1400@0.0.2560.1400" timestamp="1597823448167" />
+    <state x="507" y="367" width="672" height="696" key="search.everywhere.popup/0.0.2560.1440@0.0.2560.1440" timestamp="1599372949791" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/exd/myapplication/ui/OverScrollBehavior.kt</url>
+          <line>27</line>
+          <option name="timeStamp" value="35" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/exd/myapplication/ui/OverScrollBehavior.kt</url>
+          <line>67</line>
+          <option name="timeStamp" value="36" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/exd/myapplication/view/OverScrollEffectListener.kt</url>
+          <line>11</line>
+          <option name="timeStamp" value="37" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/exd/myapplication/network/BookNetwork.kt</url>
+          <line>71</line>
+          <properties>
+            <option name="lambda-ordinal" value="0" />
+          </properties>
+          <option name="timeStamp" value="54" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/exd/myapplication/view/WebsiteBook.kt</url>
+          <line>83</line>
+          <option name="timeStamp" value="61" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="NONE" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/exd/myapplication/view/ChapterAdapter.kt</url>
+          <line>38</line>
+          <log-expression expression="chapters.map { it.chapterTitle }" language="kotlin" />
+          <option name="timeStamp" value="64" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/exd/myapplication/ui/chapterlist/ChapterListFragment.kt</url>
+          <line>194</line>
+          <option name="timeStamp" value="65" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="JUnit">
+        <watch expression="map[a]" language="kotlin" />
+      </configuration>
+      <configuration name="AndroidJUnit">
+        <watch expression="list[ONES_MINUTES]" language="kotlin" />
+      </configuration>
+      <configuration name="Remote">
+        <watch expression="bookData.value" language="kotlin" />
+        <watch expression="nextChapterIndex" language="kotlin" />
+      </configuration>
+    </watches-manager>
+  </component>
+</project>
