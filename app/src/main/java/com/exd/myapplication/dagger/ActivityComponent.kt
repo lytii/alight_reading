@@ -1,7 +1,6 @@
 package com.exd.myapplication.dagger
 
 import android.content.Context
-import com.exd.myapplication.view.ChapterActivity
 import dagger.BindsInstance
 import dagger.Component
 
@@ -15,7 +14,6 @@ interface ActivityComponent {
     }
 
     fun context(): Context
-    fun inject(activity: ChapterActivity)
 
     @Component.Builder
     interface Builder {
