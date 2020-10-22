@@ -51,16 +51,16 @@ class ChapterListFragment : Fragment(), ChapterListListener {
         activity?.window?.statusBarColor = resources.getColor(android.R.color.transparent, null)
         super.onViewCreated(view, savedInstanceState)
         view.chapter_list.adapter = adapter
-        val decor = OverScrollDecoratorHelper.setUpOverScroll(
-            view.chapter_list,
-            OverScrollDecoratorHelper.ORIENTATION_VERTICAL
-        )
-        decor.setOverScrollStateListener { decor, oldState, newState ->
-            Log.e(TAG, "scroll listener ${oldState.toScrollState()} to ${newState.toScrollState()}")
-        }
-        decor.setOverScrollUpdateListener { decor, state, offset ->
-            Log.e(TAG, "scroll update ${state.toScrollState()}: $offset")
-        }
+//        val decor = OverScrollDecoratorHelper.setUpOverScroll(
+//            view.chapter_list,
+//            OverScrollDecoratorHelper.ORIENTATION_VERTICAL
+//        )
+//        decor.setOverScrollStateListener { decor, oldState, newState ->
+//            Log.e(TAG, "scroll listener ${oldState.toScrollState()} to ${newState.toScrollState()}")
+//        }
+//        decor.setOverScrollUpdateListener { decor, state, offset ->
+//            Log.e(TAG, "scroll update ${state.toScrollState()}: $offset")
+//        }
         setUpToolbar(view)
     }
 
@@ -71,7 +71,7 @@ class ChapterListFragment : Fragment(), ChapterListListener {
         val coverDrawable = ResourcesCompat.getDrawable(resources, R.drawable.vm_novel_image, null)
         view.cover_image.setImageDrawable(coverDrawable)
         // toolbar title (mostly for collapsed title)
-        val title = getString(R.string.vending_machine_title)
+        val title = getString(R.string.death_march_title)
         view.collapsing_toolbar.title = title
         view.appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, scrollPos ->
             if (-scrollPos == appBarLayout?.totalScrollRange) {

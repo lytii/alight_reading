@@ -44,7 +44,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
                     android:layout_toEndOf="@id/cover_image"
-                    android:text="@string/vending_machine_title" />
+                    android:text="@string/death_march_title" />
 
                 <ScrollView
                     android:id="@+id/book_summary_scroll"
@@ -59,7 +59,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toEndOf="@id/cover_image"
-                        android:text="Synopsis: He, who was an authentic Vending Machine maniac, died from a traffic accident while protecting a vending machine. He, who had expected that his life was finished, woke up in a lake shore surrounded by abundant nature. He didn’t understand what had happened to himself―― He only knew that he had become a vending machine. Alone in the labyrinth of another world. . . As he wander alone, he met a lone girl, and that cause the story to change. " />
+                        android:text="@string/death_march_synopsis" />
 
                 </ScrollView>
 
