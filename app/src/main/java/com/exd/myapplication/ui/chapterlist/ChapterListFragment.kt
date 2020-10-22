@@ -147,6 +147,16 @@ class ChapterListFragment : Fragment(), ChapterListListener {
     private fun setViewModels() {
         viewModel.chapterData.observe(viewLifecycleOwner) { chapterList ->
             adapter.setChapterList(chapterList)
+            // todo change to isRead
+            val index = chapterList.last { it.isCached }.index
+            val scroll = if (index < 3) {
+                0
+            } else {
+                index - 3
+            }
+
+            view?.chapter_list
+                ?.scrollToPosition(scroll)
         }
         viewModel.getChapterList()
     }
@@ -200,7 +210,11 @@ class ChapterListHolder(view: View, val chapterListListener: ChapterListListener
         itemView.icon.setImageDrawable(drawable)
         itemView.setOnLongClickListener {
             Log.e(TAG, "bind: marking previous as read")
-            Toast.makeText(itemView.context, "marking previous as read, need to reload", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                itemView.context,
+                "marking previous as read, need to reload",
+                Toast.LENGTH_SHORT
+            ).show()
             chapterListListener.markPreviousAsRead(chapter.index)
                 .let { true }
         }
