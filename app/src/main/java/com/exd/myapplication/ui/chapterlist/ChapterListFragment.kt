@@ -162,13 +162,6 @@ class ChapterListFragment : Fragment(), ChapterListListener {
     }
 }
 
-@Component(dependencies = [ActivityComponent::class])
-interface Injector {
-    fun inject(viewModel: ChapterListViewModel)
-
-    fun injector(): Injector
-}
-
 class ChapterListAdapter(val chapterListListener: ChapterListListener) :
     RecyclerView.Adapter<ChapterListHolder>() {
     val TAG = "ChapterListAdapter"

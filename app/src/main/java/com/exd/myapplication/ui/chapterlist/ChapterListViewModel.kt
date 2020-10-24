@@ -8,8 +8,10 @@ import androidx.lifecycle.ViewModel
 import com.exd.myapplication.dagger.ActivityComponent
 import com.exd.myapplication.models.Chapter
 import com.exd.myapplication.repo.ChapterRepo
-import com.exd.myapplication.view.TAG
+import com.exd.myapplication.view.chapter.TAG
 import com.exd.myapplication.view.WebsiteBook
+import com.exd.myapplication.dagger.ViewModelScope
+import dagger.Component
 import javax.inject.Inject
 
 class ChapterListViewModel : ViewModel() {
@@ -18,7 +20,7 @@ class ChapterListViewModel : ViewModel() {
     lateinit var repo: ChapterRepo
 
     init {
-        DaggerInjector.builder()
+        DaggerChapterListViewModel_Injector.builder()
             .activityComponent(ActivityComponent.instance)
             .build()
             .inject(this)
@@ -40,4 +42,12 @@ class ChapterListViewModel : ViewModel() {
             .subscribe()
     }
 
+
+    @ViewModelScope
+    @Component(dependencies = [ActivityComponent::class])
+    interface Injector {
+        fun inject(viewModel: ChapterListViewModel)
+
+        fun injector(): Injector
+    }
 }

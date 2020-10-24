@@ -3,6 +3,7 @@ package com.exd.myapplication.view
 import android.content.Context
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.exd.myapplication.view.chapter.ChapterViewModel
 
 class TopBottomOverScrollListener(
     private val model: ChapterViewModel,

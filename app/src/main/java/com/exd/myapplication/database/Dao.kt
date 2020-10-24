@@ -14,6 +14,7 @@ import io.reactivex.Maybe
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
+import javax.inject.Singleton
 
 @Dao
 interface BookDao {
@@ -75,6 +76,7 @@ abstract class BookRoomDB : RoomDatabase() {
     abstract fun bookDao(): BookDao
 }
 
+@Singleton
 class BookDB @Inject constructor(context: Context) {
     val TAG = "DB"
     private val db = Room.databaseBuilder(context, BookRoomDB::class.java, "books")

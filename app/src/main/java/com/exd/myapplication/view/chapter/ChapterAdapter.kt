@@ -1,4 +1,4 @@
-package com.exd.myapplication.view
+package com.exd.myapplication.view.chapter
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,6 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.exd.myapplication.ChapterNavigationListener
 import com.exd.myapplication.R
 import com.exd.myapplication.models.Chapter
+import com.exd.myapplication.view.ChapterHolder
+import com.exd.myapplication.view.NavigationHolder
+import com.exd.myapplication.view.ParagraphHolder
 
 val Any.TAG get() = this.javaClass.name
 
@@ -27,7 +30,12 @@ class ChapterAdapter(
         return when (viewType) {
             NAVIGATION -> LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_navigation, parent, false)
-                .let { NavigationHolder(it, listener) }
+                .let {
+                    NavigationHolder(
+                        it,
+                        listener
+                    )
+                }
             else -> LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_paragraph, parent, false)
                 .let { ParagraphHolder(it) }

@@ -1,8 +1,8 @@
 package com.exd.myapplication.view
 
-import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.*
+import com.exd.myapplication.view.chapter.ChapterViewModel
 
 class OverScrollEffectListener(val model: ChapterViewModel) : RecyclerView.OnScrollListener() {
     override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {

@@ -3,6 +3,7 @@ package com.exd.myapplication.view
 import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.*
+import com.exd.myapplication.view.chapter.TAG
 
 class OnBottomReachedListener(private val onBottomReached: () -> Unit) : OnScrollListener() {
     var startedLeaving = false

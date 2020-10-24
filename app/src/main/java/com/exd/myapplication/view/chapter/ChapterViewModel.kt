@@ -1,13 +1,12 @@
-package com.exd.myapplication.view
+package com.exd.myapplication.view.chapter
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.exd.myapplication.dagger.ActivityComponent
-import com.exd.myapplication.dagger.DaggerChapterViewModelComponent
-import com.exd.myapplication.models.Chapter
 import com.exd.myapplication.repo.ChapterRepo
+import com.exd.myapplication.view.chapter.ChapterDirection.*
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
@@ -19,27 +18,13 @@ class ChapterViewModel : ViewModel() {
 
     private fun Disposable.unsaved() {}
 
-    val cachedIndex: Int by lazy { 10 }
-
     var index = 0
-
-    /**
-     * @param addChapter: chapter to add to the scroll list of chapters
-     * @param direction: prepend or append to list based on previous or next chapter
-     */
-    data class ChapterState(
-        val addChapter: Chapter,
-        val direction: ChapterDirection,
-        val scroll: Boolean
-    )
-
-    enum class ChapterDirection { PREV, NEXT }
 
     @Inject
     lateinit var repo: ChapterRepo
 
     init {
-        DaggerChapterViewModelComponent.builder()
+        DaggerInjector.builder()
             .activityComponent(ActivityComponent.get())
             .build()
             .inject(this)
@@ -48,10 +33,6 @@ class ChapterViewModel : ViewModel() {
     private val chapterToPushTo = MutableLiveData<ChapterState>()
     val chapterDataToBeObserved: LiveData<ChapterState> by lazy { chapterToPushTo }
 
-    private fun Chapter.stateNext() = ChapterState(this, ChapterDirection.NEXT, true)
-    private fun Chapter.statePrev() = ChapterState(this, ChapterDirection.PREV, true)
-    private fun Chapter.asState(direction: ChapterDirection, scroll: Boolean) =
-        ChapterState(this, direction, scroll)
 
     fun loadUrl(chapterUrl: String) {
         Log.e(TAG, "loadUrl: $chapterUrl")
@@ -59,7 +40,7 @@ class ChapterViewModel : ViewModel() {
             .doOnSuccess { index = it.index }
             .subscribe { chapter ->
                 Log.e(TAG, "loadedUrl: $chapterUrl")
-                chapterToPushTo.postValue(chapter.asState(ChapterDirection.NEXT, false))
+                chapterToPushTo.postValue(chapter.asState(NEXT, false))
             }
             .unsaved()
     }
@@ -72,14 +53,7 @@ class ChapterViewModel : ViewModel() {
         chapterDataToBeObserved.value?.addChapter?.nextChapterUrl?.let {
             Log.w("cvm", "onBottomReached getting $it")
             repo.getChapter(it)
-                .subscribe { chapter ->
-                    chapterToPushTo.postValue(
-                        chapter.asState(
-                            ChapterDirection.NEXT,
-                            false
-                        )
-                    )
-                }
+                .subscribe { chapter -> chapterToPushTo.postValue(chapter.asState(NEXT, false)) }
                 .unsaved()
         }
     }
@@ -139,7 +113,7 @@ class ChapterViewModel : ViewModel() {
         repo.getChapterList()
             .subscribe { list ->
                 if (++index < list.size) {
-                    loadContent(ChapterDirection.NEXT)
+                    loadContent(NEXT)
                     repo.saveIndex(index)
                 }
             }
@@ -149,7 +123,7 @@ class ChapterViewModel : ViewModel() {
     fun previousChapter() {
         if (index > 0) {
             index--
-            loadContent(ChapterDirection.PREV)
+            loadContent(PREV)
             Completable.fromAction { repo.saveIndex(index) }
                 .subscribeOn(Schedulers.io())
                 .subscribe().unsaved()

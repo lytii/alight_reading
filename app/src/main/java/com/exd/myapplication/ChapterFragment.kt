@@ -9,14 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
-import com.exd.myapplication.models.Chapter
 import com.exd.myapplication.ui.chapterlist.toScrollState
-import com.exd.myapplication.view.ChapterAdapter
-import com.exd.myapplication.view.ChapterViewModel
-import kotlinx.android.synthetic.main.activity_chapter.view.*
-import me.everything.android.ui.overscroll.IOverScrollState.STATE_BOUNCE_BACK
-import me.everything.android.ui.overscroll.IOverScrollState.STATE_IDLE
-import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
+import com.exd.myapplication.view.chapter.ChapterAdapter
+import com.exd.myapplication.view.chapter.ChapterDirection
+import com.exd.myapplication.view.chapter.ChapterState
+import com.exd.myapplication.view.chapter.ChapterViewModel
 
 class ChapterFragment : Fragment(), ChapterNavigationListener {
 
@@ -49,14 +46,14 @@ class ChapterFragment : Fragment(), ChapterNavigationListener {
     }
 
     private fun observeWith(paragraphList: RecyclerView, adapter: ChapterAdapter) =
-        Observer<ChapterViewModel.ChapterState> { (chapter, direction, scroll) ->
+        Observer<ChapterState> { (chapter, direction, scroll) ->
             paragraphList.clearOnScrollListeners()
             paragraphList.addOnScrollListener(bottomReachListener)
             Log.v(TAG, "setViewModels: ${chapter.overallString()}")
 //            val position = if (prev) chapter.paragraphs.size + 1 else 0
 
             when (direction) {
-                ChapterViewModel.ChapterDirection.NEXT -> {
+                ChapterDirection.NEXT -> {
                     adapter.setNextChapter(chapter)
                     Log.e(TAG, "scroll next ${adapter.nextChapterIndex}")
                     if (scroll) {
@@ -64,7 +61,7 @@ class ChapterFragment : Fragment(), ChapterNavigationListener {
                         paragraphList.smoothScrollBy(0, 1000)
                     }
                 }
-                ChapterViewModel.ChapterDirection.PREV -> {
+                ChapterDirection.PREV -> {
                     Log.e(TAG, "scroll prev?")
                     adapter.setPrevChapter(chapter)
                     paragraphList.scrollToPosition(adapter.prevChapterIndex)

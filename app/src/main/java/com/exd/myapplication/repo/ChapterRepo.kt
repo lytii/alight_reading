@@ -4,7 +4,7 @@ import android.util.Log
 import com.exd.myapplication.database.BookDB
 import com.exd.myapplication.models.Chapter
 import com.exd.myapplication.network.BookNetwork
-import com.exd.myapplication.view.TAG
+import com.exd.myapplication.view.chapter.TAG
 import com.exd.myapplication.view.WebsiteBook
 import io.reactivex.Completable
 import io.reactivex.Single
