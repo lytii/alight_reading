@@ -145,20 +145,18 @@ class ChapterListFragment : Fragment(), ChapterListListener {
     }
 
     private fun setViewModels() {
-        viewModel.chapterData.observe(viewLifecycleOwner) { chapterList ->
-            adapter.setChapterList(chapterList)
-            // todo change to isRead
-            val index = chapterList.last { it.isCached }.index
-            val scroll = if (index < 3) {
-                0
-            } else {
-                index - 3
-            }
-
-            view?.chapter_list
-                ?.scrollToPosition(scroll)
-        }
+        viewModel.chapterData.observe(viewLifecycleOwner) { chapterList -> handleList(chapterList) }
         viewModel.getChapterList()
+    }
+
+    private fun handleList(chapterList: List<Chapter>) {
+        adapter.setChapterList(chapterList)
+        // todo change to isRead
+        val index = chapterList.lastOrNull { it.isCached }?.index
+        val scroll = when {
+            index == null || index < 3 -> 0
+            else -> index - 3
+        }
     }
 }
 
