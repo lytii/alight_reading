@@ -9,7 +9,7 @@ android {
     buildToolsVersion "29.0.3"
 
     defaultConfig {
-        applicationId "com.exd.myapplication"
+        applicationId "com.alight.reading"
         minSdkVersion 26
         targetSdkVersion 29
         versionCode 1
